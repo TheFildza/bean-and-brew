@@ -62,7 +62,7 @@ function StatCard({ label, value, sub }: { label: string; value: string; sub?: s
   return (
     <div className="bg-white border border-[#3C2A21]/10 rounded-lg px-5 py-4">
       <p className="text-xs text-[#3C2A21]/50 uppercase tracking-wide mb-1">{label}</p>
-      <p className="font-serif text-2xl font-bold text-[#1A120B]">{value}</p>
+      <p className="font-serif text-2xl font-bold text-[#2C1810]">{value}</p>
       {sub && <p className="text-xs text-[#3C2A21]/50 mt-1">{sub}</p>}
     </div>
   )
@@ -74,10 +74,10 @@ function FunnelBar({ label, value, max }: { label: string; value: number; max: n
     <div className="space-y-1">
       <div className="flex justify-between text-sm">
         <span className="text-[#3C2A21]">{label}</span>
-        <span className="font-medium text-[#1A120B]">{value} <span className="text-[#3C2A21]/50 font-normal">({pct}%)</span></span>
+        <span className="font-medium text-[#2C1810]">{value} <span className="text-[#3C2A21]/50 font-normal">({pct}%)</span></span>
       </div>
       <div className="h-2 bg-[#3C2A21]/10 rounded-full overflow-hidden">
-        <div className="h-full bg-[#1A120B] rounded-full transition-all" style={{ width: `${pct}%` }} />
+        <div className="h-full bg-[#2C1810] rounded-full transition-all" style={{ width: `${pct}%` }} />
       </div>
     </div>
   )
@@ -99,7 +99,7 @@ export default async function AnalyticsPage() {
   return (
     <div className="space-y-8">
       <div className="flex items-center justify-between">
-        <h1 className="font-serif text-2xl font-bold text-[#1A120B]">Analytics</h1>
+        <h1 className="font-serif text-2xl font-bold text-[#2C1810]">Analytics</h1>
         <span className="text-xs text-[#3C2A21]/50">Last 30 days</span>
       </div>
 
@@ -125,7 +125,7 @@ export default async function AnalyticsPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Conversion Funnel */}
         <div className="bg-white border border-[#3C2A21]/10 rounded-lg p-5 space-y-4">
-          <h2 className="font-medium text-[#1A120B]">Conversion Funnel</h2>
+          <h2 className="font-medium text-[#2C1810]">Conversion Funnel</h2>
           <div className="space-y-3">
             <FunnelBar label="Add to Cart" value={Number(funnel.add_to_cart)} max={funnelMax} />
             <FunnelBar label="Checkout Started" value={Number(funnel.checkout_started)} max={funnelMax} />
@@ -135,12 +135,12 @@ export default async function AnalyticsPage() {
 
         {/* Top Coffees */}
         <div className="bg-white border border-[#3C2A21]/10 rounded-lg p-5 space-y-4">
-          <h2 className="font-medium text-[#1A120B]">Top Coffees (All Time)</h2>
+          <h2 className="font-medium text-[#2C1810]">Top Coffees (All Time)</h2>
           {topCoffees.length === 0 && <p className="text-sm text-[#3C2A21]/50">No sales yet.</p>}
           <div className="space-y-2">
             {topCoffees.map((c, i) => (
               <div key={i} className="flex items-center justify-between text-sm">
-                <span className="text-[#1A120B]">
+                <span className="text-[#2C1810]">
                   <span className="text-[#3C2A21]/40 mr-2">{i + 1}.</span>{c.name as string}
                 </span>
                 <span className="text-[#3C2A21]/70">
@@ -153,15 +153,15 @@ export default async function AnalyticsPage() {
 
         {/* AI Sommelier */}
         <div className="bg-white border border-[#3C2A21]/10 rounded-lg p-5 space-y-3">
-          <h2 className="font-medium text-[#1A120B]">AI Sommelier</h2>
+          <h2 className="font-medium text-[#2C1810]">AI Sommelier</h2>
           <div className="grid grid-cols-3 gap-3 text-center">
             {[
               { label: 'Opened', value: sommelier.opened },
               { label: 'Recommendations', value: sommelier.recommendations_shown },
               { label: 'Added to Cart', value: sommelier.recommendations_added },
             ].map(s => (
-              <div key={s.label} className="bg-[#FAF8F6] rounded-lg py-3">
-                <p className="font-serif text-xl font-bold text-[#1A120B]">{String(s.value)}</p>
+              <div key={s.label} className="bg-[#FDF8F3] rounded-lg py-3">
+                <p className="font-serif text-xl font-bold text-[#2C1810]">{String(s.value)}</p>
                 <p className="text-xs text-[#3C2A21]/50 mt-0.5">{s.label}</p>
               </div>
             ))}
@@ -170,13 +170,13 @@ export default async function AnalyticsPage() {
 
         {/* Delivery Breakdown */}
         <div className="bg-white border border-[#3C2A21]/10 rounded-lg p-5 space-y-3">
-          <h2 className="font-medium text-[#1A120B]">Delivery Breakdown</h2>
+          <h2 className="font-medium text-[#2C1810]">Delivery Breakdown</h2>
           {deliveryBreakdown.length === 0 && <p className="text-sm text-[#3C2A21]/50">No data yet.</p>}
           <div className="space-y-2">
             {deliveryBreakdown.map((d) => (
               <div key={d.delivery_type as string} className="flex items-center justify-between text-sm">
-                <span className="text-[#1A120B] capitalize">{d.delivery_type as string}</span>
-                <span className="font-medium text-[#1A120B]">{d.count as number} orders</span>
+                <span className="text-[#2C1810] capitalize">{d.delivery_type as string}</span>
+                <span className="font-medium text-[#2C1810]">{d.count as number} orders</span>
               </div>
             ))}
           </div>

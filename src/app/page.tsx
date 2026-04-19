@@ -37,8 +37,8 @@ export default async function Home() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="py-20 px-6 text-center">
-        <h1 className="text-5xl md:text-6xl font-serif font-bold mb-6 text-[#1A120B]">
+      <section className="py-24 px-6 text-center">
+        <h1 className="text-5xl md:text-7xl font-serif font-bold mb-6 text-[#2C1810]">
           B & B
         </h1>
         <p className="text-xl md:text-2xl text-[#3C2A21] max-w-2xl mx-auto leading-relaxed">
@@ -47,9 +47,9 @@ export default async function Home() {
       </section>
 
       {/* Coffee Catalog */}
-      <section className="px-6 pb-20">
+      <section className="px-6 pb-24">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-serif font-bold text-center mb-12 text-[#1A120B]">
+          <h2 className="text-3xl font-serif font-bold text-center mb-12 text-[#2C1810]">
             Our Roasts
           </h2>
 
@@ -62,7 +62,7 @@ export default async function Home() {
               {coffees.map((coffee) => (
                 <div
                   key={coffee.id}
-                  className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden"
+                  className="bg-white/80 backdrop-blur-sm rounded-xl shadow-sm hover:shadow-xl hover:scale-[1.02] transition-all duration-300 overflow-hidden"
                 >
                   <div className="aspect-square relative bg-[#3C2A21]">
                     {coffee.image_url ? (
@@ -75,17 +75,17 @@ export default async function Home() {
                       />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
-                        <span className="text-[#FAF8F6] text-6xl opacity-30">&#9749;</span>
+                        <span className="text-[#FDF8F3] text-6xl opacity-30">&#9749;</span>
                       </div>
                     )}
                   </div>
 
                   <div className="p-6">
                     <div className="flex items-start justify-between mb-3">
-                      <h3 className="text-xl font-serif font-bold text-[#1A120B]">
+                      <h3 className="text-xl font-serif font-bold text-[#2C1810]">
                         {coffee.name}
                       </h3>
-                      <span className="bg-[#3C2A21] text-[#FAF8F6] px-3 py-1 rounded-full text-sm font-medium">
+                      <span className="bg-[#3C2A21] text-[#FDF8F3] px-3 py-1 rounded-full text-sm font-medium shrink-0 ml-2">
                         {coffee.origin}
                       </span>
                     </div>
@@ -96,7 +96,7 @@ export default async function Home() {
                       </span>
                     </div>
 
-                    <p className="text-[#1A120B] mb-4 line-clamp-2">
+                    <p className="text-[#2C1810] mb-4 line-clamp-2">
                       {coffee.description}
                     </p>
 
@@ -104,7 +104,7 @@ export default async function Home() {
                       {coffee.notes?.split(',').map((note, index) => (
                         <span
                           key={index}
-                          className="bg-[#B68D40] text-[#1A120B] px-2 py-1 rounded text-xs font-medium"
+                          className="bg-[#B68D40] text-[#2C1810] px-2 py-1 rounded text-xs font-medium"
                         >
                           {note.trim()}
                         </span>
@@ -112,17 +112,24 @@ export default async function Home() {
                     </div>
 
                     <div className="flex items-center justify-between">
-                      <span className="text-2xl font-serif font-bold text-[#1A120B]">
+                      <span className="text-2xl font-serif font-bold text-[#2C1810]">
                         ${coffee.price}
                       </span>
                       {coffee.stock_quantity > 0 ? (
-                        <AddToCartButton coffee={{
-                          id: coffee.id,
-                          name: coffee.name,
-                          origin: coffee.origin,
-                          price: coffee.price,
-                          image_url: coffee.image_url,
-                        }} />
+                        <>
+                          {coffee.stock_quantity <= 5 && (
+                            <span className="text-xs text-amber-700 font-medium">
+                              Only {coffee.stock_quantity} left
+                            </span>
+                          )}
+                          <AddToCartButton coffee={{
+                            id: coffee.id,
+                            name: coffee.name,
+                            origin: coffee.origin,
+                            price: coffee.price,
+                            image_url: coffee.image_url,
+                          }} />
+                        </>
                       ) : (
                         <span className="text-sm font-medium text-[#3C2A21]/60 border border-[#3C2A21]/20 px-4 py-2 rounded">
                           Out of Stock

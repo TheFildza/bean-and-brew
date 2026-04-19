@@ -81,13 +81,13 @@ export function AdminLocationControls({ locations }: Props) {
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             placeholder="Search address, area or landmark..."
-            className="w-full pl-9 pr-4 py-2 border border-[#3C2A21]/30 rounded text-sm text-[#1A120B] bg-white placeholder-[#3C2A21]/40 focus:outline-none focus:border-[#1A120B]"
+            className="w-full pl-9 pr-4 py-2 border border-[#3C2A21]/30 rounded text-sm text-[#2C1810] bg-white placeholder-[#3C2A21]/40 focus:outline-none focus:border-[#2C1810]"
           />
         </div>
         <button
           type="submit"
           disabled={searching}
-          className="px-4 py-2 bg-[#1A120B] text-[#FAF8F6] rounded text-sm font-medium hover:bg-[#3C2A21] transition-colors disabled:opacity-50"
+          className="px-4 py-2 bg-[#2C1810] text-[#FDF8F3] rounded text-sm font-medium hover:bg-[#3C2A21] transition-colors disabled:opacity-50"
         >
           {searching ? '...' : 'Go'}
         </button>
@@ -106,7 +106,7 @@ export function AdminLocationControls({ locations }: Props) {
 
       {newPin && (
         <form onSubmit={handleCreate} className="bg-white border border-[#B68D40]/40 rounded-lg p-4 space-y-3">
-          <p className="text-sm font-medium text-[#1A120B] flex items-center gap-2">
+          <p className="text-sm font-medium text-[#2C1810] flex items-center gap-2">
             <MapPin size={14} className="text-[#B68D40]" />
             New location at {newPin.lat.toFixed(4)}, {newPin.lng.toFixed(4)}
           </p>
@@ -116,18 +116,18 @@ export function AdminLocationControls({ locations }: Props) {
               onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
               placeholder="Name (e.g. Zemun Market)"
               required
-              className="border border-[#3C2A21]/30 rounded px-3 py-2 text-sm focus:outline-none focus:border-[#1A120B]"
+              className="border border-[#3C2A21]/30 rounded px-3 py-2 text-sm focus:outline-none focus:border-[#2C1810]"
             />
             <input
               value={form.address}
               onChange={e => setForm(f => ({ ...f, address: e.target.value }))}
               placeholder="Full address"
               required
-              className="border border-[#3C2A21]/30 rounded px-3 py-2 text-sm focus:outline-none focus:border-[#1A120B]"
+              className="border border-[#3C2A21]/30 rounded px-3 py-2 text-sm focus:outline-none focus:border-[#2C1810]"
             />
           </div>
           <div className="flex gap-2">
-            <button type="submit" disabled={pending} className="flex-1 bg-[#1A120B] text-[#FAF8F6] py-2 rounded text-sm font-medium hover:bg-[#3C2A21] transition-colors disabled:opacity-50">
+            <button type="submit" disabled={pending} className="flex-1 bg-[#2C1810] text-[#FDF8F3] py-2 rounded text-sm font-medium hover:bg-[#3C2A21] transition-colors disabled:opacity-50">
               {pending ? 'Saving...' : 'Save Location'}
             </button>
             <button type="button" onClick={() => setNewPin(null)} className="px-4 py-2 rounded text-sm border border-[#3C2A21]/20 hover:bg-[#3C2A21]/5 transition-colors">
@@ -144,12 +144,12 @@ export function AdminLocationControls({ locations }: Props) {
             {locations.map(loc => (
               <div key={loc.id} className="flex items-center justify-between bg-white border border-[#3C2A21]/10 rounded-lg px-4 py-3">
                 <div className="min-w-0 mr-3">
-                  <p className="font-medium text-sm text-[#1A120B] truncate">{loc.name}</p>
+                  <p className="font-medium text-sm text-[#2C1810] truncate">{loc.name}</p>
                   <p className="text-xs text-[#3C2A21]/60 truncate">{loc.address}</p>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
                   <form action={async () => { await toggleLocationAction(loc.id, !loc.is_active) }}>
-                    <button type="submit" className="text-[#3C2A21]/40 hover:text-[#1A120B] transition-colors">
+                    <button type="submit" className="text-[#3C2A21]/40 hover:text-[#2C1810] transition-colors">
                       {loc.is_active ? <ToggleRight size={20} className="text-[#B68D40]" /> : <ToggleLeft size={20} />}
                     </button>
                   </form>

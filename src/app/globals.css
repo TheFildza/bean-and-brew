@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #FAF8F6;
-  --foreground: #1A120B;
+  --background: #FDF8F3;
+  --foreground: #2C1810;
 }
 
 @theme inline {
@@ -13,9 +13,34 @@
 }
 
 body {
-  background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+/* Full-screen plantation background — sits behind all consumer pages */
+.plantation-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background-image:
+    linear-gradient(
+      to bottom,
+      rgba(253,248,243,0.72) 0%,
+      rgba(253,248,243,0.88) 50%,
+      rgba(253,248,243,0.97) 100%
+    ),
+    url('/backgound.png');
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+@media (max-width: 768px) {
+  /* Prevent iOS scroll jank */
+  .plantation-bg {
+    background-attachment: scroll;
+  }
 }
 
 .input {
@@ -24,11 +49,11 @@ body {
   border-radius: 0.25rem;
   padding: 0.5rem 1rem;
   background: white;
-  color: #1A120B;
+  color: #2C1810;
   font-size: 0.875rem;
 }
 
 .input:focus {
   outline: none;
-  border-color: #1A120B;
+  border-color: #2C1810;
 }

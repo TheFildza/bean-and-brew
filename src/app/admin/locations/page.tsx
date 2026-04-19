@@ -18,7 +18,7 @@ export default async function LocationsPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="font-serif text-2xl font-bold text-[#1A120B]">Pickup Locations</h1>
+        <h1 className="font-serif text-2xl font-bold text-[#2C1810]">Pickup Locations</h1>
       </div>
 
       <AdminLocationControls locations={locations} />
