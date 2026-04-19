@@ -1,10 +1,9 @@
 'use client'
 import { useEffect } from 'react'
-import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet'
+import { MapContainer, TileLayer, Marker, useMapEvents, useMap } from 'react-leaflet'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 
-// Fix default marker icons broken by webpack
 delete (L.Icon.Default.prototype as unknown as Record<string, unknown>)._getIconUrl
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
@@ -14,6 +13,7 @@ L.Icon.Default.mergeOptions({
 
 interface Props {
   center?: [number, number]
+  zoom?: number
   markers?: { id: number; name: string; lat: number; lng: number; isActive?: boolean }[]
   onMapClick?: (lat: number, lng: number) => void
   selectedId?: number
@@ -22,30 +22,36 @@ interface Props {
 }
 
 function ClickHandler({ onMapClick }: { onMapClick: (lat: number, lng: number) => void }) {
-  useMapEvents({
-    click(e) {
-      onMapClick(e.latlng.lat, e.latlng.lng)
-    },
-  })
+  useMapEvents({ click(e) { onMapClick(e.latlng.lat, e.latlng.lng) } })
+  return null
+}
+
+function FlyTo({ center, zoom }: { center: [number, number]; zoom: number }) {
+  const map = useMap()
+  useEffect(() => {
+    map.flyTo(center, zoom, { duration: 1.2 })
+  }, [map, center, zoom])
   return null
 }
 
 export default function LocationPickerMap({
   center = [44.8176, 20.4569],
+  zoom = 12,
   markers = [],
   onMapClick,
   selectedId,
   onSelect,
   readOnly = false,
 }: Props) {
-  useEffect(() => {}, []) // ensure client-only
+  useEffect(() => {}, [])
 
   return (
-    <MapContainer center={center} zoom={12} style={{ height: '100%', width: '100%' }}>
+    <MapContainer center={center} zoom={zoom} style={{ height: '100%', width: '100%' }}>
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
+      <FlyTo center={center} zoom={zoom} />
       {!readOnly && onMapClick && <ClickHandler onMapClick={onMapClick} />}
       {markers.map(m => {
         const icon = L.divIcon({
