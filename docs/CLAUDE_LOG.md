@@ -12,6 +12,33 @@
 - `pm2 save` na kraju — proces preživljava server reboot (u kombinaciji sa `pm2 startup`)
 
 
+## 2026-04-19 — Phase 4: Delivery & UX Optimization
+
+**Changes made:**
+- CartDrawer dodat korak "Delivery Options" između korpe i plaćanja (dva taba: Home Delivery / Pickup Point)
+- Home Delivery: tekstualni unos adrese + "Lociraj me" (Browser Geolocation API + Nominatim reverse geocoding)
+- Pickup Point: interaktivna Leaflet mapa sa aktivnim lokacijama, kupac bira klikanjem
+- Mapa: `react-leaflet` + OpenStreetMap tiles — open source, bez API ključa
+- Geocoding: Nominatim (`nominatim.openstreetmap.org/reverse`) — besplatno, bez ključa
+- Migracija `003_delivery_address.sql`: `delivery_address`, `delivery_lat`, `delivery_lng` na `orders`
+- Migracija `004_pickup_locations.sql`: `pickup_locations` tabela + `delivery_type`, `pickup_location_id` na `orders`
+- Admin `/admin/locations`: CRUD pickup lokacija sa Leaflet mapom (klik za pin, form za naziv/adresu, toggle, delete)
+- Admin navigacija proširena linkom "Locations"
+- `/api/pickup-locations` GET ruta za dohvatanje aktivnih lokacija
+- Checkout API prihvata `delivery` objekat (adresa, koordinate, pickup_location_id) i prosleđuje kroz Stripe metadata
+- Webhook čuva delivery podatke i `pickup_location_id` uz narudžbinu
+- Leaflet marker icon fix: brisanje `_getIconUrl` + `mergeOptions` sa CDN URL-ovima (webpack ne bundluje Leaflet slike)
+- Gotcha: `export const dynamic` i `import dynamic from 'next/dynamic'` imaju isti naziv — koristiti u odvojenim fajlovima
+
+## 2026-04-19 — Phase 3: AI Sommelier
+
+**Changes made:**
+- Instaliran `@anthropic-ai/sdk`, Claude Haiku 4.5 model
+- `/api/sommelier` POST ruta: učitava aktivne kafe iz DB, šalje katalog kao system prompt, parsira JSON preporuku iz odgovora
+- `SommelierChat` floating widget (bottom-right): konverzacijski UI, "Add to cart" dugme kad Claude preporuči kafu
+- API vraća pun `CartItem` objekat u preporuci (id, name, origin, price, image_url) — direktno kompatibilno sa `addItem`
+- `ANTHROPIC_API_KEY` dodat u `.env.local`
+
 ## 2026-04-19 — Phase 2: Operations & Commerce
 
 **Changes made:**
