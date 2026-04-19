@@ -14,6 +14,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               <a href="/admin" className="text-[#FAF8F6]/70 hover:text-[#FAF8F6] transition-colors">Products</a>
               <a href="/admin/orders" className="text-[#FAF8F6]/70 hover:text-[#FAF8F6] transition-colors">Orders</a>
               <a href="/admin/locations" className="text-[#FAF8F6]/70 hover:text-[#FAF8F6] transition-colors">Locations</a>
+              <a href="/admin/analytics" className="text-[#FAF8F6]/70 hover:text-[#FAF8F6] transition-colors">Analytics</a>
             </nav>
           </div>
           <form action={logoutAction}>

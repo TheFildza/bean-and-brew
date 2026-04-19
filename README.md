@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# B & B — Artisanal Coffee Roastery
 
-## Getting Started
+D2C e-commerce platform for a specialty coffee roastery. Built following the BMAD methodology.
 
-First, run the development server:
+## Stack
+- **Next.js 16** (App Router, Server Components, Server Actions)
+- **Neon PostgreSQL** (raw SQL, no ORM)
+- **Tailwind CSS v4**
+- **Stripe Embedded Checkout** (SDK v22)
+- **Claude Haiku 4.5** (AI Sommelier)
+- **Zustand v5** (cart state)
+- **Leaflet + OpenStreetMap** (pickup locations)
+
+## Running locally
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Copy to `.env.local` (see `docs/DEPLOYMENT.md` for the full list):
 
-## Learn More
+```env
+DATABASE_URL=...
+ADMIN_PASSWORD_HASH=...
+ADMIN_SESSION_TOKEN=...
+STRIPE_SECRET_KEY=...
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=...
+STRIPE_WEBHOOK_SECRET=...
+NEXT_PUBLIC_BASE_URL=...
+ANTHROPIC_API_KEY=...
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Deployment
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Push to the `prod` branch to trigger an automatic deploy via GitHub Actions → SSH → PM2.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+git checkout prod && git merge master && git push origin prod
+```
 
-## Deploy on Vercel
+Details: `docs/DEPLOYMENT.md`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Documentation
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+| File | Contents |
+| :--- | :--- |
+| `docs/PRODUCT_CONCEPT.md` | Roadmap and business goals |
+| `docs/ARCHITECTURE.md` | Architectural decisions |
+| `docs/DATABASE.md` | Database schema and migrations |
+| `docs/UX_DESIGN.md` | Design system and user experience |
+| `docs/MASTER_INSTRUCTIONS.md` | Technical development guidelines |
+| `docs/CLAUDE_LOG.md` | Log of all architectural changes |
+| `docs/DEPLOYMENT.md` | Deployment and CI/CD guide |

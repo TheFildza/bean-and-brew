@@ -1,6 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk'
 import { NextRequest, NextResponse } from 'next/server'
 import { sql } from '@/lib/db'
+import { track } from '@/lib/track'
 
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
@@ -64,6 +65,10 @@ Rules:
     } catch {
       // ignore parse errors, return full message
     }
+  }
+
+  if (recommendation) {
+    await track('sommelier_recommendation_shown', { coffee_id: recommendation.id, coffee_name: recommendation.name })
   }
 
   return NextResponse.json({ message, recommendation })

@@ -114,7 +114,7 @@ export function AdminLocationControls({ locations }: Props) {
             <input
               value={form.name}
               onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
-              placeholder="Name (e.g. Pijaca Zemun)"
+              placeholder="Name (e.g. Zemun Market)"
               required
               className="border border-[#3C2A21]/30 rounded px-3 py-2 text-sm focus:outline-none focus:border-[#1A120B]"
             />

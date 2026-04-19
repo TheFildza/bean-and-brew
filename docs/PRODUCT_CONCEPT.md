@@ -13,8 +13,6 @@ The digital storefront acts as a **"Virtual Shelf"** that reflects the physical 
 ## 3. Road-to-Market (BMAD Strategy)
 We follow the **Build-Measure-Act-Deploy** framework to ensure rapid, stable, and validated iterations.
 
-> **Note on Measure & Act:** In the current MVP stages, "Measure" is implicit — each phase is validated through manual testing and live usage on `kafa.nikolafilic.com`. Formal analytics (conversion tracking, funnel analysis) are planned for a future iteration once baseline traffic exists.
-
 ### Phase 1: The Digital Shelf (COMPLETED)
 * **High-Performance Infrastructure:** Next.js 16 (App Router), Neon PostgreSQL (Serverless), and Tailwind CSS v4.
 * **Boutique Catalog:** A curated display of specialty roasts with structured data (origin, roast level, flavor notes).
@@ -26,15 +24,22 @@ We follow the **Build-Measure-Act-Deploy** framework to ensure rapid, stable, an
 * **Inventory Integrity:** Real-time stock tracking with "Out of Stock" logic to manage customer expectations.
 
 ### Phase 3: AI Sommelier (COMPLETED)
-* **Conversational Commerce:** Integrating a custom-tuned LLM (Claude/DeepSeek) to act as a virtual barista/sommelier.
+* **Conversational Commerce:** Integrating a custom-tuned LLM (Claude Haiku 4.5) to act as a virtual barista/sommelier.
 * **Intelligent Recommendations:** Guiding non-expert customers based on taste profiles (e.g., "nutty vs. floral") and pairing suggestions.
 * **Direct Cart Integration:** Empowering the AI agent to push recommended products directly to the user's cart.
 
-### Phase 4: Delivery & UX Optimization (CURRENT)
-* **Hybrid Fulfillment:** Kupac bira između "Dostave na adresu" i "Ličnog preuzimanja" (Click & Collect) tokom checkout procesa.
-* **Address Capture:** Tekstualni unos adrese + opcioni "Lociraj me" (Browser Geolocation API) za auto-popunjavanje na mobilnim uređajima. Adresa i koordinate se čuvaju uz narudžbinu. Nema integracije sa kurirskom službom u ovoj fazi — adresa služi kao podatak za manuelnu obradu.
-* **Click & Collect Lokacije:** Fiksne lokacije (pijace, kafići) kojima upravlja admin putem interaktivne mape (centrirana na Beograd). Lokacije se čuvaju u bazi sa nazivom, adresom i koordinatama. Kupac bira lokaciju sa mape tokom checkout-a. Admin mapa zauzima celu širinu ekrana sa tekstualnim poljem za pretragu iznad — pretraga zumira mapu na zadatu adresu, oblast ili pojam (Nominatim geocoding).
-* **Admin Orders Pregled:** Admin vidi sve narudžbine sa kompletnim podacima — kupac (ime, email), stavke (naziv kafe, količina, cena), ukupan iznos, status plaćanja, datum, i tip/adresa dostave (kućna adresa ili pickup lokacija). Narudžbine su sortirane hronološki, najnovije prvo.
+### Phase 4: Delivery & UX Optimization (COMPLETED)
+* **Hybrid Fulfillment:** The customer chooses between "Home Delivery" and "Click & Collect" during the checkout process.
+* **Address Capture:** Text input for address + optional "Locate Me" (Browser Geolocation API) for auto-fill on mobile devices. Address and coordinates are stored with the order. No courier integration in this phase — the address is used as data for manual processing.
+* **Click & Collect Locations:** Fixed locations (markets, cafés) managed by the admin via an interactive map (centered on Belgrade). Locations are stored in the database with name, address, and coordinates. The customer selects a location from the map during checkout. The admin map occupies the full screen width with a text search field above — search zooms the map to the given address, area, or term (Nominatim geocoding).
+* **Admin Orders View:** The admin sees all orders with complete details — customer (name, email), items (coffee name, quantity, price), total amount, payment status, date, delivery type, and destination (home address with coordinates if available, or the name and address of the pickup location). Orders are sorted chronologically, newest first.
+
+### Phase 5: Analytics & BMAD Compliance (COMPLETED)
+* **Zero-Dependency Analytics:** Custom `events` table in Neon for tracking user behavior without third-party tools.
+* **Conversion Funnel:** Tracks `add_to_cart` → `checkout_started` → `order_completed` events.
+* **AI Sommelier Metrics:** Tracks `sommelier_opened`, `sommelier_recommendation_shown`, `sommelier_recommendation_added` to measure AI-driven conversion.
+* **Admin Analytics Dashboard:** KPI cards (revenue 30d vs prev 30d, orders, avg order value, AI CVR), funnel bars, top 5 coffees by revenue, delivery type breakdown.
+* **Deployment Reliability:** `npm ci` for deterministic installs, `pm2 reload` for zero-downtime restarts, rollback-on-build-failure, post-deploy health check.
 
 ## 4. MVP Core Requirements
 * **Performance:** Sub-1s page loads using SSR and optimized image delivery.

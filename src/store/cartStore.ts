@@ -1,5 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
+import { trackClient } from '@/lib/trackClient'
 
 export interface CartItem {
   id: number
@@ -28,7 +29,8 @@ export const useCartStore = create<CartState>()(
     (set, get) => ({
       items: [],
       isOpen: false,
-      addItem: (item) =>
+      addItem: (item) => {
+        trackClient('add_to_cart', { coffee_id: item.id, coffee_name: item.name, price: item.price })
         set((state) => {
           const existing = state.items.find((i) => i.id === item.id)
           return {
@@ -39,7 +41,8 @@ export const useCartStore = create<CartState>()(
               : [...state.items, { ...item, quantity: 1 }],
             isOpen: true,
           }
-        }),
+        })
+      },
       removeItem: (id) =>
         set((state) => ({ items: state.items.filter((i) => i.id !== id) })),
       updateQuantity: (id, quantity) =>
