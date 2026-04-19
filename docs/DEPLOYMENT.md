@@ -1,9 +1,9 @@
-# Deployment Guide: Bean & Brew
+# Deployment Guide: B & B
 
-Ovaj dokument služi kao operativni priručnik za automatizovani deployment proces. Sistem je dizajniran da osigura maksimalnu stabilnost na Ubuntu 24.04 LTS okruženju koristeći CI/CD pipeline.
+This document serves as the operational reference for the automated deployment process. The system is designed to ensure maximum stability on Ubuntu 24.04 LTS using a CI/CD pipeline.
 
-## 1. Arhitektura Sistema
-Aplikacija koristi automatizovani "Push-to-Deploy" model koji eliminiše potrebu za manuelnim FTP prenosom.
+## 1. System Architecture
+The application uses an automated "Push-to-Deploy" model that eliminates the need for manual FTP transfers.
 
 * **Server:** Ubuntu 24.04 LTS (Noble Numbat)
 * **Runtime:** Node.js 20+ (LTS)
@@ -13,89 +13,96 @@ Aplikacija koristi automatizovani "Push-to-Deploy" model koji eliminiše potrebu
 
 ---
 
-## 2. Strategija Grana (Branching Strategy)
-Stroga podela grana osigurava da razvoj ne utiče na stabilnost produkcije.
+## 2. Branching Strategy
+A strict branch separation ensures development does not affect production stability.
 
-| Grana | Svrha | Automatski Deploy |
+| Branch | Purpose | Auto Deploy |
 | :--- | :--- | :--- |
-| `master` | Razvojna grana. Ovde se vrši integracija funkcija i testiranje. | NE |
-| `prod` | Produkciona grana. Predstavlja kod koji je trenutno live na sajtu. | DA |
+| `master` | Development branch. Feature integration and testing happen here. | NO |
+| `prod` | Production branch. Represents the code currently live on the site. | YES |
 
-### Proces objavljivanja (How to Deploy):
-Kada je kod na `master` grani stabilan, prebacuje se na `prod` što okida deployment:
+### How to Deploy:
+When the code on `master` is stable, merge it to `prod` to trigger deployment:
 ```bash
 git checkout prod
 git merge master
 git push origin prod
 ```
-`push` na `prod` automatski pokreće GitHub Actions pipeline.
+A `push` to `prod` automatically triggers the GitHub Actions pipeline.
 
 ---
 
 ## 3. CI/CD Pipeline (GitHub Actions)
 
-**Fajl:** `.github/workflows/deploy.yml`
+**File:** `.github/workflows/deploy.yml`
 
-**Tok izvršavanja:**
+**Execution flow:**
 ```
 git push origin prod
     → GitHub Actions (ubuntu-latest)
-        → SSH u VPS
+        → SSH into VPS
             → bash start.sh
                 → git reset --hard origin/prod
-                → npm install
+                → npm ci
                 → npm run build
-                → pm2 restart bean-and-brew
+                → pm2 reload bean-and-brew
 ```
 
-### Potrebni GitHub Secrets
+### Required GitHub Secrets
 
-Podesiti u: `GitHub Repo → Settings → Secrets and variables → Actions`
+Configure in: `GitHub Repo → Settings → Secrets and variables → Actions`
 
-| Secret | Opis |
+| Secret | Description |
 | :--- | :--- |
-| `SSH_PRIVATE_KEY` | ED25519 privatni ključ (generisan na serveru) |
-| `SERVER_IP` | IP adresa VPS servera |
-| `SERVER_USER` | SSH korisnik (`nikibajaopak`) |
+| `SSH_PRIVATE_KEY` | ED25519 private key (generated on server) |
+| `SERVER_IP` | VPS server IP address |
+| `SERVER_USER` | SSH user (`nikibajaopak`) |
 
-### Generisanje SSH ključa na serveru:
+### Generating the SSH key on the server:
 ```bash
 ssh-keygen -t ed25519 -C "github-actions-deploy" -f ~/.ssh/github_deploy
 cat ~/.ssh/github_deploy.pub >> ~/.ssh/authorized_keys
-cat ~/.ssh/github_deploy  # ← ovaj sadržaj ide u SSH_PRIVATE_KEY secret
+cat ~/.ssh/github_deploy  # ← this content goes into the SSH_PRIVATE_KEY secret
 ```
 
 ---
 
 ## 4. Nginx Reverse Proxy
 
-HestiaCP konfiguriše Nginx automatski. Za podešavanje reverse proxy-ja ka Next.js (port 3000):
+HestiaCP configures Nginx automatically. To set up reverse proxy to Next.js (port 3000):
 
 ```bash
 bash setup-nginx.sh
 ```
 
-Skripta: `setup-nginx.sh` (u root-u projekta).
+Script: `setup-nginx.sh` (in project root).
 
-Nginx sluša na 80/443 i prosleđuje zahtjeve na `http://127.0.0.1:3000`.
+Nginx listens on 80/443 and forwards requests to `http://127.0.0.1:3000`.
 
 ---
 
-## 5. Environment Varijable
+## 5. Environment Variables
 
-**Fajl:** `/home/nikibajaopak/web/kafa.nikolafilic.com/public_html/.env.local`
+**File:** `/home/nikibajaopak/web/kafa.nikolafilic.com/public_html/.env.local`
 
 ```env
 DATABASE_URL=postgresql://...@...neon.tech/...
-ADMIN_PASSWORD_HASH=...    # bcrypt hash admin lozinke
-SESSION_SECRET=...         # nasumičan string za potpisivanje cookija
+ADMIN_PASSWORD_HASH=...                  # bcryptjs hash of admin password (\$ escaping required)
+ADMIN_SESSION_TOKEN=...                  # random hex string for admin session
+STRIPE_SECRET_KEY=sk_test_...            # Stripe secret key
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_...
+STRIPE_WEBHOOK_SECRET=whsec_...          # from Stripe Dashboard → Webhooks
+NEXT_PUBLIC_BASE_URL=https://kafa.nikolafilic.com
+ANTHROPIC_API_KEY=sk-ant-...             # Claude API key
 ```
 
-`.env.local` je u `.gitignore` — nikad ne commit-ovati.
+> **Important:** `$` characters in `.env.local` must be escaped as `\$` — Next.js automatically expands `$VAR` in env files.
+
+`.env.local` is in `.gitignore` — never commit it.
 
 ---
 
-## 6. Ručni Restart (bez deploymenta)
+## 6. Manual Restart (without deployment)
 
 ```bash
 cd /home/nikibajaopak/web/kafa.nikolafilic.com/public_html
@@ -107,7 +114,7 @@ bash start.sh
 ## 7. Monitoring
 
 ```bash
-pm2 status               # status procesa
-pm2 logs bean-and-brew   # live logovi
+pm2 status               # process status
+pm2 logs bean-and-brew   # live logs
 pm2 monit                # CPU/RAM monitoring
 ```

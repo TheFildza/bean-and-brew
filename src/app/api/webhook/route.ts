@@ -1,6 +1,7 @@
 import Stripe from 'stripe'
 import { NextRequest, NextResponse } from 'next/server'
 import { sql } from '@/lib/db'
+import { track } from '@/lib/track'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
 
@@ -56,6 +57,14 @@ export async function POST(request: NextRequest) {
         WHERE id = ${item.id}
       `
     }
+
+    await track('order_completed', {
+      order_id: orderId,
+      user_id: userId,
+      total_amount: totalAmount,
+      delivery_type: deliveryType,
+      item_count: items.reduce((s, i) => s + i.quantity, 0),
+    })
   }
 
   return NextResponse.json({ received: true })

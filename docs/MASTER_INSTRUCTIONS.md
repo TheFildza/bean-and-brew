@@ -1,28 +1,30 @@
 ## 4. Operational Guardrails
-- **Inventory Logic:** Svaki proizvod mora imati `stock_quantity`. UI mora elegantno hendlovati "Out of Stock" stanja.
-- **Server-Side Price Validation:** Checkout API uvek ponovo povlači cene iz baze. Nikada ne veruj ceni poslatoj sa klijenta.
-- **Stripe Webhook Raw Body:** Koristiti `request.text()` za verifikaciju potpisa (ne `request.json()`).
-- **Webhook Idempotency:** Obavezna provera `stripe_session_id` u bazi pre kreiranja narudžbine.
+- **Inventory Logic:** Every product must have a `stock_quantity`. The UI must handle "Out of Stock" states gracefully.
+- **Server-Side Price Validation:** The checkout API always re-fetches prices from the database. Never trust prices sent from the client.
+- **Stripe Webhook Raw Body:** Use `request.text()` for signature verification (not `request.json()`).
+- **Webhook Idempotency:** Always check `stripe_session_id` in the database before creating an order.
 
 ## 5. User Authentication (Zero-Dependency Auth)
-- **Admin Access:** ENV-based lozinka (`ADMIN_PASSWORD_HASH`) + Secure httpOnly kuki.
-- **User Login:** Registracija: Hash-ovanje lozinke preko `bcryptjs` pre `INSERT` operacije. Autentifikacija: Provera hasha i postavljanje `bb_user_session` httpOnly kukija.
-    - **Storage:** Random token se čuva u `users.session_token` koloni u bazi. Provera se vrši u `getUserFromSession()` (`src/lib/userAuth.ts`).
-- **Session Security:** `proxy.ts` štiti isključivo `/admin/*` rute. Korisničke stranice (npr. `/account`) proveru vrše direktno u layout/page komponenti putem `getUserFromSession()`.
+- **Admin Access:** ENV-based password (`ADMIN_PASSWORD_HASH`) + secure httpOnly cookie.
+- **User Login:** Registration: hash the password via `bcryptjs` before the `INSERT`. Authentication: verify hash and set `bb_user_session` httpOnly cookie.
+    - **Storage:** Random token is stored in the `users.session_token` column in the database. Verified in `getUserFromSession()` (`src/lib/userAuth.ts`).
+- **Session Security:** `proxy.ts` exclusively protects `/admin/*` routes. User pages (e.g., `/account`) perform the check directly in the layout/page component via `getUserFromSession()`.
 
 ## 6. Stripe Payment Integration (v22)
-- **Flow:** Koristiti **Stripe Embedded Checkout** unutar modala.
-- **Configuration:** `uiMode` mora biti postavljen na `'embedded_page' as const`.
-- **Atomic Stock Update:** Smanjenje `stock_quantity` se vrši isključivo unutar Stripe Webhook-a nakon potvrđene uplate (`checkout.session.completed`).
-- **Error Handling:** Ako se uplata potvrdi, a smanjenje zaliha ne uspe, sistem mora logovati grešku za manuelnu intervenciju (Inventory Integrity).
+- **Flow:** Use **Stripe Embedded Checkout** inside a modal.
+- **Configuration:** `uiMode` must be set to `'embedded_page' as const`.
+- **Atomic Stock Update:** `stock_quantity` decrement happens exclusively inside the Stripe Webhook after a confirmed payment (`checkout.session.completed`).
+- **Error Handling:** If payment is confirmed but stock decrement fails, the system must log the error for manual intervention (Inventory Integrity).
 
 ## 7. Known Gotchas & Versioning
-- **Next.js 16:** Middleware fajl je `proxy.ts`, eksportuje `proxy()`.
-- **Stripe SDK v22:** Koristiti `'embedded_page' as const` umesto `'embedded'`.
-- **Zustand v5 + SSR:** Koristiti `skipHydration: true` i `partialize`.
-- **Dynamic Rendering:** Dodati `export const dynamic = 'force-dynamic'` na stranice sa DB upitima u build-time-u.
+- **Next.js 16:** Middleware file is `proxy.ts`, exports `proxy()`.
+- **Stripe SDK v22:** Use `'embedded_page' as const` instead of `'embedded'`.
+- **Zustand v5 + SSR:** Use `skipHydration: true` and `partialize`.
+- **Dynamic Rendering:** Add `export const dynamic = 'force-dynamic'` to pages with DB queries at build time.
+- **Leaflet + webpack:** Delete `_getIconUrl` from `L.Icon.Default.prototype` and use `mergeOptions` with CDN icon URLs — webpack does not bundle Leaflet's default images.
+- **`export const dynamic` vs `import dynamic`:** These share the same name — use Leaflet maps only in client components to avoid the conflict.
 
 ## 8. Documentation & Logging
-- **Claude Log:** Svaka arhitektonska promena mora biti zabeležena u `docs/CLAUDE_LOG.md`.
-- **Environment Awareness:** Uvek poštovati putanju: `/home/nikibajaopak/web/kafa.nikolafilic.com/public_html`.
-- **Brand Name:** Aplikacija se u celom UI-u naziva **"B & B"**.
+- **Claude Log:** Every architectural change must be recorded in `docs/CLAUDE_LOG.md`.
+- **Environment Awareness:** Always respect the path: `/home/nikibajaopak/web/kafa.nikolafilic.com/public_html`.
+- **Brand Name:** The application is called **"B & B"** everywhere in the UI.

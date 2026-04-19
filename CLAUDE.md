@@ -6,6 +6,6 @@
 
 # Workflow Rules
 - **Methodology:** Strictly follow the BMAD (Build, Measure, Act, Deploy) method.
-- **Communication:** Internal logic/code/docs in English. Communication with the PO is in Serbian.
-- **Architecture:** Use Next.js 15 Server Components. Keep the codebase lean and modular.
+- **Communication:** All code, docs, and communication in English.
+- **Architecture:** Use Next.js 16 Server Components. Keep the codebase lean and modular.
 - **Styling:** Adhere to the defined coffee-themed palette and typography.

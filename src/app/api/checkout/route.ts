@@ -2,6 +2,7 @@ import Stripe from 'stripe'
 import { NextRequest, NextResponse } from 'next/server'
 import { sql } from '@/lib/db'
 import { getUserFromSession } from '@/lib/userAuth'
+import { track } from '@/lib/track'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
 
@@ -61,6 +62,11 @@ export async function POST(request: NextRequest) {
       ...(delivery?.lng != null && { delivery_lng: String(delivery.lng) }),
       ...(delivery?.pickup_location_id != null && { pickup_location_id: String(delivery.pickup_location_id) }),
     },
+  })
+
+  await track('checkout_started', {
+    item_count: items.reduce((s, i) => s + i.quantity, 0),
+    delivery_type: delivery?.pickup_location_id ? 'pickup' : 'delivery',
   })
 
   return NextResponse.json({ clientSecret: session.client_secret })

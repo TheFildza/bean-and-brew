@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { MessageCircle, X, Send, ShoppingCart } from 'lucide-react'
 import { useCartStore } from '@/store/cartStore'
+import { trackClient } from '@/lib/trackClient'
 
 interface Recommendation {
   id: number
@@ -70,12 +71,13 @@ export function SommelierChat() {
 
   function handleAddToCart(rec: Recommendation) {
     addItem({ id: rec.id, name: rec.name, price: rec.price, image_url: rec.image_url, origin: rec.origin })
+    trackClient('sommelier_recommendation_added', { coffee_id: rec.id, coffee_name: rec.name })
   }
 
   return (
     <>
       <button
-        onClick={() => setIsOpen(true)}
+        onClick={() => { setIsOpen(true); trackClient('sommelier_opened') }}
         className="fixed bottom-6 right-6 z-50 bg-[#1A120B] text-[#FAF8F6] w-14 h-14 rounded-full shadow-lg flex items-center justify-center hover:bg-[#3C2A21] transition-colors"
         aria-label="Open coffee sommelier"
       >

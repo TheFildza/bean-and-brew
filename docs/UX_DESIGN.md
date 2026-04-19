@@ -1,57 +1,49 @@
-# UX Design Strategy: B & B
+# Bean & Brew: UX/UI Strategy & Sensory Conversion
 
-## 1. Visual Identity & Atmosphere
-The design must evoke the sensory experience of a specialty coffee roastery: warmth, precision, and craftsmanship.
+## 1. Visual Identity: The Digital Roastery
+The design objective is to trigger **"Visual Synesthesia"** – where the user can almost smell the coffee through the screen.
 
-- **Background:** Soft Cream (`#FAF8F6`) - more organic than pure white.
-- **Typography:** - **Headings:** Elegant Serif (e.g., Playfair Display) for a premium, heritage feel.
-  - **Body:** Clean Sans-serif (e.g., Inter) for readability and modern SaaS vibe.
-- **Primary Colors:** - Deep Espresso (`#1A120B`) for primary text.
-  - Roasted Brown (`#3C2A21`) for accents and secondary elements.
-  - Muted Gold or Amber (`#B68D40`) for special highlights (e.g., Top Rated).
+- **Organic Palette:**
+  - **Primary Background:** `#FDF8F3` (Warm Cream). Replaces "clinical" white to evoke the color of latte foam and unbleached paper filters.
+  - **Primary Text:** `#2C1810` (Deep Espresso). High contrast but warmer and softer than pure black.
+  - **Accent Green:** `#3E5622` (Plantation Green). Used for "Freshly Roasted" badges to subconsciously signal botanical freshness and the origin of the plant.
+- **Typography:**
+  - **Headings:** *Playfair Display* (Serif). Conveys craftsmanship, heritage, and the "slow" roasting process.
+  - **Body:** *Inter* (Sans-serif). Ensures sub-second readability for technical specs and price.
 
-## 2. Layout Principles
-- **Generous White Space:** Avoiding clutter to let the products "breathe."
-- **High-Quality Imagery:** Focus on macro shots of beans and the brewing process.
-- **Micro-interactions:** Subtle transitions on card hovers to signal quality.
+## 2. Sensory UX: Mouth-Watering Effects
+We don't just sell beans; we sell the ritual.
 
-## 3. User Journey (Phase 1)
-1. **Landing:** Hero section with a strong brand statement.
-2. **Discovery:** A minimalist grid of coffees with clear roast indicators (visual dots).
-3. **Detail:** Simple card structure showing:
-   - Origin (as a prominent badge)
-   - Flavor notes (as a list or tags)
-   - Price & Roast Level
+- **Hero Motion:** Instead of static banners, use a low-bitrate muted video loop or high-quality cinemagraph showing steam rising from a fresh pour-over or beans falling into the cooling tray.
+- **Visual Taste Mapping:** Every coffee card features an **Interactive Radar Chart** (SVG-based). 
+  - *Metrics:* Sweetness, Acidity, Body, Aroma, Aftertaste.
+  - *Goal:* Allows non-experts to "see" the flavor profile at a glance without the cognitive load of reading long descriptions.
+- **Texture Overlays:** A subtle grain filter (CSS `mix-blend-mode`) over background sections to mimic the tactile feel of burlap coffee sacks and artisanal paper.
 
-## 4. Mobile Experience
-- Single-column layout for the product list.
-- Large, "thumb-friendly" interaction areas.
-- Fast, lazy-loaded images to maintain performance on cellular networks.
+## 3. The "Discovery" Flow (Conversion Optimized)
+1. **The Shelf:** Minimalist grid with high-ratio product photography (macro shots of roasted beans showing the oils and texture).
+2. **Freshness Ticker:** Dynamic badges showing **"Roasted [X] days ago"** to leverage the specialty coffee USP. Freshness is the ultimate "mouth-watering" trigger.
+3. **Scarcity Logic:** Subtle UI indicators like *"Only 5 bags left from this batch"* to drive immediate action.
 
-## 5. Cart & Checkout UX
-- **Cart Drawer:** Slide-in panel s desne strane, overlay pozadina zatvara drawer na klik.
-- **Item Controls:** Inline +/- dugmad za količinu, trash ikona za uklanjanje, thumbnail slike za vizuelni kontekst.
-- **Checkout Modal:** Stripe Embedded Checkout se otvara u centrisanom modalu — korisnik ne napušta stranicu.
-- **Empty State:** Prijatna poruka kad je korpa prazna, bez praznog UI-ja.
-- **Error Feedback:** Inline greška ispod checkout dugmeta (out of stock, mrežna greška).
-- **Auth Gate:** Ako korisnik nije ulogovan, redirect na `/login?next=checkout` pre otvaranja plaćanja.
+## 4. Frictionless Checkout (BMAD Informed)
+Based on the "Measure" phase of typical e-commerce friction:
+- **📍 "Locate Me" Helper:** A prominent button next to the address field using the Browser Geolocation API.
+  - *Action:* One-tap address completion.
+  - *Rationale:* Essential for mobile users shopping "on the go" at local farmers' markets. Less typing = higher conversion.
+- **Stripe Embedded Flow:** Seamless modal integration. No redirects, keeping the user in the "sensory loop" until the thank-you page.
+- **Cart Drawer:** Persistent Zustand-managed drawer with micro-animations (`framer-motion`) when items are added to provide positive reinforcement.
 
-## 6. Admin Dashboard UX
-- **Odvojena vizuelna tema:** Tamni header (`#1A120B`) jasno signalizira admin kontekst — ne meša se sa korisničkim UI-jem.
-- **Tabela proizvoda:** Kompaktna, density-first lista sa inline akcijama (Edit, Delete, toggle aktivnosti).
-- **Forme:** Jednostavne, vertikalne forme sa jasnim label-ima. Greške inline ispod polja.
-- **Stock indikator:** Vizuelno upozorenje kad je `stock_quantity` = 0 (badge "Out of Stock").
-- **Destruktivne akcije:** Delete dugme traži potvrdu kako bi se sprečilo slučajno brisanje.
-- **Locations mapa:** Full-width Leaflet mapa sa poljem za pretragu iznad. Pretraga zumira mapu na adresu/oblast/pojam (Nominatim geocoding). Klik na mapu dodaje pin, forma za naziv/adresu se pojavljuje ispod mape.
+## 5. Mobile-First "Artisanal" Feel
+- **Thumb-Zone Design:** Primary CTAs (Add to Cart, Locate Me) are placed within easy reach of the thumb.
+- **Tactile Feedback:** Subtle CSS transitions (`scale-105`) and shadows on touch/hover to give the digital products a physical, "pick-up-able" feel.
 
-## 7. Auth Pages UX (Login / Register)
-- **Minimalistički layout:** Centrisana kartica na Cream pozadini, bez navigacije.
-- **Brand logo/naziv** na vrhu forme za konzistentnost.
-- **Inline greške:** Prikazati specifičnu poruku (pogrešna lozinka, email već postoji).
-- **Cross-links:** Login stranica ima link na Register i obrnuto.
+## 6. Admin Dashboard: The Roaster's Command Center
+Designed for efficiency in high-pressure environments (e.g., during a busy market day).
+- **Dark Mode Header:** Clear visual distinction from the consumer storefront.
+- **"Panic Button" (Quick Stock Adjustment):** Large +/- buttons for instant inventory sync after a physical sale at the farmers' market.
+- **Order Stream:** Real-time list of new orders to ensure "Roast-to-Door" speed.
 
-## 8. Order History UX (`/account`)
-- **Hronološki prikaz** narudžbina, najnovije prvo.
-- **Status badge:** Vizuelni indikator statusa (completed, pending).
-- **Sumarni podaci:** Datum, ukupan iznos, lista stavki sa količinama.
-- **Prazno stanje:** Poziv na akciju ka prodavnici ako nema narudžbina.
+## 7. Technical Implementation Notes
+- **Radar Charts:** Rendered via lightweight SVG paths in React, ensuring zero impact on LCP (Largest Contentful Paint).
+- **Images:** Next.js `<Image />` component with `placeholder="blur"` and WebP/AVIF formats for sub-second delivery.
+- **Zero-Layout-Shift:** Strict aspect ratios for all product visuals to ensure a stable browsing experience.
