@@ -4,6 +4,7 @@ import "./globals.css";
 import { Header } from "@/components/Header";
 import { CartProvider } from "@/components/CartProvider";
 import { LogoutButton } from "@/components/LogoutButton";
+import { SommelierChat } from "@/components/SommelierChat";
 import { getUserFromSession } from "@/lib/userAuth";
 
 const inter = Inter({
@@ -54,6 +55,7 @@ export default async function RootLayout({
             )}
           />
           {children}
+          <SommelierChat />
         </CartProvider>
       </body>
     </html>
