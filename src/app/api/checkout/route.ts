@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
 
   const { items, delivery } = await request.json() as {
     items: { id: number; quantity: number }[]
-    delivery?: { address: string; lat?: number; lng?: number }
+    delivery?: { address: string; lat?: number; lng?: number; pickup_location_id?: number }
   }
   if (!items?.length) {
     return NextResponse.json({ error: 'Cart is empty' }, { status: 400 })
@@ -59,6 +59,7 @@ export async function POST(request: NextRequest) {
       ...(delivery?.address && { delivery_address: delivery.address }),
       ...(delivery?.lat != null && { delivery_lat: String(delivery.lat) }),
       ...(delivery?.lng != null && { delivery_lng: String(delivery.lng) }),
+      ...(delivery?.pickup_location_id != null && { pickup_location_id: String(delivery.pickup_location_id) }),
     },
   })
 
