@@ -1,65 +1,131 @@
 import Image from "next/image";
+import { sql } from "@/lib/db";
+export const dynamic = 'force-dynamic';
 
-export default function Home() {
+interface Coffee {
+  id: number;
+  name: string;
+  origin: string;
+  roast_level: string;
+  price: number;
+  notes: string | null;
+  description: string;
+  image_url: string | null;
+}
+
+async function getCoffees(): Promise<Coffee[]> {
+  try {
+    const coffees = await sql`
+      SELECT id, name, origin, roast_level, price, notes, description, image_url
+      FROM coffees
+      ORDER BY id
+    `;
+    return coffees as Coffee[];
+  } catch (error) {
+    console.error("Failed to fetch coffees:", error);
+    return [];
+  }
+}
+
+export default async function Home() {
+  const coffees = await getCoffees();
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="min-h-screen">
+      {/* Hero Section */}
+      <section className="py-20 px-6 text-center">
+        <h1 className="text-5xl md:text-6xl font-serif font-bold mb-6 text-[#1A120B]">
+          Bean & Brew
+        </h1>
+        <p className="text-xl md:text-2xl text-[#3C2A21] max-w-2xl mx-auto leading-relaxed">
+          Discover our curated selection of specialty coffees, roasted with precision and passion.
+        </p>
+      </section>
+
+      {/* Coffee Catalog */}
+      <section className="px-6 pb-20">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-3xl font-serif font-bold text-center mb-12 text-[#1A120B]">
+            Our Roasts
+          </h2>
+
+          {coffees.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-lg text-[#3C2A21]">No coffees available at the moment.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {coffees.map((coffee) => (
+                <div
+                  key={coffee.id}
+                  className="bg-white rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden"
+                >
+                  <div className="aspect-square relative bg-[#3C2A21]">
+                    {coffee.image_url ? (
+                      <Image
+                        src={coffee.image_url}
+                        alt={coffee.name}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <span className="text-[#FAF8F6] text-6xl opacity-30">&#9749;</span>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="p-6">
+                    <div className="flex items-start justify-between mb-3">
+                      <h3 className="text-xl font-serif font-bold text-[#1A120B]">
+                        {coffee.name}
+                      </h3>
+                      <span className="bg-[#3C2A21] text-[#FAF8F6] px-3 py-1 rounded-full text-sm font-medium">
+                        {coffee.origin}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-2 mb-3">
+                      <span className="text-sm text-[#3C2A21] font-medium">
+                        {coffee.roast_level} Roast
+                      </span>
+                    </div>
+
+                    <p className="text-[#1A120B] mb-4 line-clamp-2">
+                      {coffee.description}
+                    </p>
+
+                    <div className="flex flex-wrap gap-2 mb-4">
+                      {coffee.notes?.split(',').map((note, index) => (
+                        <span
+                          key={index}
+                          className="bg-[#B68D40] text-[#1A120B] px-2 py-1 rounded text-xs font-medium"
+                        >
+                          {note.trim()}
+                        </span>
+                      ))}
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <span className="text-2xl font-serif font-bold text-[#1A120B]">
+                        ${coffee.price}
+                      </span>
+                      <button
+                        disabled
+                        className="bg-[#1A120B] text-[#FAF8F6] px-6 py-2 rounded opacity-40 cursor-not-allowed"
+                        title="Coming in Phase 2"
+                      >
+                        Add to Cart
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      </section>
     </div>
   );
 }
