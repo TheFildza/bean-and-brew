@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { sql } from "@/lib/db";
+import { AddToCartButton } from "@/components/AddToCartButton";
 export const dynamic = 'force-dynamic';
 
 interface Coffee {
@@ -111,13 +112,13 @@ export default async function Home() {
                       <span className="text-2xl font-serif font-bold text-[#1A120B]">
                         ${coffee.price}
                       </span>
-                      <button
-                        disabled
-                        className="bg-[#1A120B] text-[#FAF8F6] px-6 py-2 rounded opacity-40 cursor-not-allowed"
-                        title="Coming in Phase 2"
-                      >
-                        Add to Cart
-                      </button>
+                      <AddToCartButton coffee={{
+                        id: coffee.id,
+                        name: coffee.name,
+                        origin: coffee.origin,
+                        price: coffee.price,
+                        image_url: coffee.image_url,
+                      }} />
                     </div>
                   </div>
                 </div>
