@@ -28,15 +28,10 @@ We follow the **Build-Measure-Act-Deploy** framework to ensure rapid, stable, an
 * **Intelligent Recommendations:** Guiding non-expert customers based on taste profiles (e.g., "nutty vs. floral") and pairing suggestions.
 * **Direct Cart Integration:** Empowering the AI agent to push recommended products directly to the user's cart.
 
-### Phase 4: Scaling & Retention (FUTURE)
-* **Subscription Model:** "Subscribe & Save" logic for recurring monthly revenue.
-* **QR Traceability:** Linking physical packaging to digital batch stories and roast dates.
-
-## 4. MVP Core Requirements
-* **Performance:** Sub-1s page loads using SSR and optimized image delivery.
-* **Operational Simplicity:** A robust Admin Dashboard for non-technical founders.
-* **Scalability:** A flexible Prisma-based schema designed for multi-region inventory and future expansion.
-* **Reliability:** Automated "Audit Trail" via `CLAUDE_LOG.md` and safe deployment rollback procedures.
+### Phase 4: Delivery & UX Optimization (CURRENT)
+* **Hybrid Fulfillment:** Kupac bira između "Dostave na adresu" i "Ličnog preuzimanja" (Click & Collect) tokom checkout procesa.
+* **Address Capture:** Tekstualni unos adrese + opcioni "Lociraj me" (Browser Geolocation API) za auto-popunjavanje na mobilnim uređajima. Adresa i koordinate se čuvaju uz narudžbinu. Nema integracije sa kurirskom službom u ovoj fazi — adresa služi kao podatak za manuelnu obradu.
+* **Click & Collect Lokacije:** Fiksne lokacije (pijace, kafići) kojima upravlja admin putem interaktivne mape (centrirana na Beograd). Lokacije se čuvaju u bazi sa nazivom, adresom i koordinatama. Kupac bira lokaciju sa mape tokom checkout-a.
 
 ## 5. Technical Stack (Architect's Note)
 | Component | Technology | Rationale |
