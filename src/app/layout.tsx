@@ -35,20 +35,23 @@ export default async function RootLayout({
       lang="en"
       className={`${inter.variable} ${playfair.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-[#FAF8F6] text-[#1A120B]">
+      <body className="min-h-full flex flex-col text-[#2C1810]">
+        {/* Plantation background — visible on all consumer pages */}
+        <div className="plantation-bg" aria-hidden="true" />
+
         <CartProvider>
           <Header
             userNav={user ? (
               <div className="flex items-center gap-3 text-sm">
-                <a href="/account" className="text-[#3C2A21] hover:text-[#1A120B] transition-colors">
+                <a href="/account" className="text-[#3C2A21] hover:text-[#2C1810] transition-colors">
                   {user.name ?? user.email}
                 </a>
                 <LogoutButton />
               </div>
             ) : (
               <div className="flex items-center gap-3 text-sm">
-                <a href="/login" className="text-[#3C2A21] hover:text-[#1A120B] transition-colors">Login</a>
-                <a href="/register" className="bg-[#1A120B] text-[#FAF8F6] px-3 py-1 rounded hover:bg-[#3C2A21] transition-colors">
+                <a href="/login" className="text-[#3C2A21] hover:text-[#2C1810] transition-colors">Login</a>
+                <a href="/register" className="bg-[#2C1810] text-[#FDF8F3] px-3 py-1 rounded hover:bg-[#3C2A21] transition-colors">
                   Register
                 </a>
               </div>

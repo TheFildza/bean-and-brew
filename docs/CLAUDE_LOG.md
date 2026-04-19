@@ -1,5 +1,18 @@
 # Claude AI Decision Log
 
+## 2026-04-20 — UX Redesign: The Plantation Background
+
+**Changes made:**
+- `globals.css`: CSS variables updated to spec palette (`#FDF8F3` bg, `#2C1810` text). Added `.plantation-bg` class — full-screen `position: fixed; z-index: -1` background with `coffee-plant.jpg` covered by a warm cream gradient (`rgba(253,248,243,0.72→0.97)`). `background-attachment: scroll` on mobile to prevent iOS jank.
+- `layout.tsx`: Added `<div className="plantation-bg">` as first child of `<body>`. Removed solid `bg-[#FAF8F6]` from body so the plantation shows through. Admin layout's own `min-h-screen bg-[#FDF8F3]` naturally covers it on admin pages.
+- `page.tsx`: Product cards → `bg-white/80 backdrop-blur-sm rounded-xl` (glassmorphism, float above plantation). Added `hover:scale-[1.02] hover:shadow-xl transition-all`. Scarcity Logic added: "Only N left" warning when `stock_quantity <= 5`.
+- `Header.tsx`: `bg-[#FDF8F3]/75 backdrop-blur-md` — semi-transparent, plantation shows through.
+- `login`, `register`, `success`, `cancel` pages: Removed solid `min-h-screen bg-` backgrounds. Form/content wrapped in `bg-white/80 backdrop-blur-sm rounded-xl shadow-lg` card.
+- `account/page.tsx`: Order cards → `bg-white/80 backdrop-blur-sm rounded-xl`.
+- `AddToCartButton.tsx`: Added `hover:scale-105` tactile feedback.
+- All files: `#FAF8F6` → `#FDF8F3`, `#1A120B` → `#2C1810` across all components and admin pages.
+- **Required action:** Add `public/coffee-plant.jpg` — a high-res photo of a coffee plant with ripe red cherries (royalty-free from Unsplash/Pexels or own photography).
+
 ## 2026-04-20 — Translation to English
 
 **Changes made:**

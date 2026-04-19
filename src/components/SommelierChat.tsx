@@ -78,7 +78,7 @@ export function SommelierChat() {
     <>
       <button
         onClick={() => { setIsOpen(true); trackClient('sommelier_opened') }}
-        className="fixed bottom-6 right-6 z-50 bg-[#1A120B] text-[#FAF8F6] w-14 h-14 rounded-full shadow-lg flex items-center justify-center hover:bg-[#3C2A21] transition-colors"
+        className="fixed bottom-6 right-6 z-50 bg-[#2C1810] text-[#FAF8F6] w-14 h-14 rounded-full shadow-lg flex items-center justify-center hover:bg-[#3C2A21] transition-colors"
         aria-label="Open coffee sommelier"
       >
         <MessageCircle size={24} />
@@ -87,8 +87,8 @@ export function SommelierChat() {
       {isOpen && (
         <>
           <div className="fixed inset-0 z-50 bg-black/30" onClick={() => setIsOpen(false)} />
-          <div className="fixed bottom-24 right-6 z-50 w-80 bg-[#FAF8F6] rounded-xl shadow-2xl flex flex-col overflow-hidden" style={{ maxHeight: '70vh' }}>
-            <div className="bg-[#1A120B] text-[#FAF8F6] px-4 py-3 flex items-center justify-between shrink-0">
+          <div className="fixed bottom-24 right-6 z-50 w-80 bg-[#FDF8F3] rounded-xl shadow-2xl flex flex-col overflow-hidden" style={{ maxHeight: '70vh' }}>
+            <div className="bg-[#2C1810] text-[#FAF8F6] px-4 py-3 flex items-center justify-between shrink-0">
               <div>
                 <p className="font-serif font-bold text-sm">Coffee Sommelier</p>
                 <p className="text-xs text-[#FAF8F6]/60">Powered by Claude AI</p>
@@ -103,14 +103,14 @@ export function SommelierChat() {
                 <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
                   <div className={`max-w-[85%] rounded-lg px-3 py-2 text-sm ${
                     msg.role === 'user'
-                      ? 'bg-[#1A120B] text-[#FAF8F6]'
-                      : 'bg-white border border-[#3C2A21]/10 text-[#1A120B]'
+                      ? 'bg-[#2C1810] text-[#FAF8F6]'
+                      : 'bg-white border border-[#3C2A21]/10 text-[#2C1810]'
                   }`}>
                     <p className="leading-relaxed">{msg.content}</p>
                     {msg.recommendation && (
                       <button
                         onClick={() => handleAddToCart(msg.recommendation!)}
-                        className="mt-2 flex items-center gap-1.5 text-xs bg-[#B68D40] text-[#1A120B] font-medium px-2 py-1 rounded hover:bg-[#B68D40]/80 transition-colors w-full justify-center"
+                        className="mt-2 flex items-center gap-1.5 text-xs bg-[#B68D40] text-[#2C1810] font-medium px-2 py-1 rounded hover:bg-[#B68D40]/80 transition-colors w-full justify-center"
                       >
                         <ShoppingCart size={12} />
                         Add {msg.recommendation.name} to cart
@@ -136,12 +136,12 @@ export function SommelierChat() {
                 onChange={e => setInput(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && handleSend()}
                 placeholder="Describe your taste..."
-                className="flex-1 text-sm bg-white border border-[#3C2A21]/20 rounded px-3 py-1.5 text-[#1A120B] placeholder-[#3C2A21]/40 focus:outline-none focus:border-[#1A120B]"
+                className="flex-1 text-sm bg-white border border-[#3C2A21]/20 rounded px-3 py-1.5 text-[#2C1810] placeholder-[#3C2A21]/40 focus:outline-none focus:border-[#2C1810]"
               />
               <button
                 onClick={handleSend}
                 disabled={loading || !input.trim()}
-                className="bg-[#1A120B] text-[#FAF8F6] p-1.5 rounded hover:bg-[#3C2A21] transition-colors disabled:opacity-40"
+                className="bg-[#2C1810] text-[#FAF8F6] p-1.5 rounded hover:bg-[#3C2A21] transition-colors disabled:opacity-40"
               >
                 <Send size={16} />
               </button>

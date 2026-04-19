@@ -56,8 +56,8 @@ export default function LocationPickerMap({
       {markers.map(m => {
         const icon = L.divIcon({
           html: `<div style="
-            background:${selectedId === m.id ? '#B68D40' : m.isActive === false ? '#9CA3AF' : '#1A120B'};
-            color:#FAF8F6;font-size:11px;font-weight:600;
+            background:${selectedId === m.id ? '#B68D40' : m.isActive === false ? '#9CA3AF' : '#2C1810'};
+            color:#FDF8F3;font-size:11px;font-weight:600;
             padding:4px 8px;border-radius:4px;white-space:nowrap;
             box-shadow:0 2px 6px rgba(0,0,0,0.3);
           ">${m.name}</div>`,

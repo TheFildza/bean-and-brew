@@ -8,16 +8,16 @@ export default async function LoginPage({ searchParams }: Props) {
   const { error } = await searchParams
 
   return (
-    <div className="min-h-screen bg-[#FAF8F6] flex items-center justify-center px-4">
+    <div className="min-h-screen bg-[#FDF8F3] flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
-        <h1 className="font-serif text-3xl font-bold text-[#1A120B] text-center mb-2">
+        <h1 className="font-serif text-3xl font-bold text-[#2C1810] text-center mb-2">
           B & B
         </h1>
         <p className="text-center text-[#3C2A21] mb-8">Admin Dashboard</p>
 
         <form action={loginAction} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-[#1A120B] mb-1">
+            <label className="block text-sm font-medium text-[#2C1810] mb-1">
               Password
             </label>
             <input
@@ -25,7 +25,7 @@ export default async function LoginPage({ searchParams }: Props) {
               name="password"
               required
               autoFocus
-              className="w-full border border-[#3C2A21]/30 rounded px-4 py-2 bg-white text-[#1A120B] focus:outline-none focus:border-[#1A120B]"
+              className="w-full border border-[#3C2A21]/30 rounded px-4 py-2 bg-white text-[#2C1810] focus:outline-none focus:border-[#2C1810]"
             />
           </div>
 
@@ -35,7 +35,7 @@ export default async function LoginPage({ searchParams }: Props) {
 
           <button
             type="submit"
-            className="w-full bg-[#1A120B] text-[#FAF8F6] py-2 rounded hover:bg-[#3C2A21] transition-colors font-medium"
+            className="w-full bg-[#2C1810] text-[#FDF8F3] py-2 rounded hover:bg-[#3C2A21] transition-colors font-medium"
           >
             Sign In
           </button>

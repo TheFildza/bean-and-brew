@@ -24,7 +24,7 @@ export default async function EditCoffeePage({ params }: Props) {
 
   return (
     <div>
-      <h1 className="font-serif text-2xl font-bold text-[#1A120B] mb-6">
+      <h1 className="font-serif text-2xl font-bold text-[#2C1810] mb-6">
         Edit: {coffee.name as string}
       </h1>
       <CoffeeForm

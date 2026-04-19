@@ -29,10 +29,10 @@ export default async function AdminPage() {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h1 className="font-serif text-2xl font-bold text-[#1A120B]">Inventory</h1>
+        <h1 className="font-serif text-2xl font-bold text-[#2C1810]">Inventory</h1>
         <Link
           href="/admin/new"
-          className="bg-[#1A120B] text-[#FAF8F6] px-4 py-2 rounded hover:bg-[#3C2A21] transition-colors text-sm font-medium"
+          className="bg-[#2C1810] text-[#FDF8F3] px-4 py-2 rounded hover:bg-[#3C2A21] transition-colors text-sm font-medium"
         >
           + Add Coffee
         </Link>
@@ -56,11 +56,11 @@ export default async function AdminPage() {
             </thead>
             <tbody>
               {coffees.map((coffee) => (
-                <tr key={coffee.id} className="border-b border-[#3C2A21]/10 hover:bg-[#FAF8F6]">
-                  <td className="px-4 py-3 font-medium text-[#1A120B]">{coffee.name}</td>
+                <tr key={coffee.id} className="border-b border-[#3C2A21]/10 hover:bg-[#FDF8F3]">
+                  <td className="px-4 py-3 font-medium text-[#2C1810]">{coffee.name}</td>
                   <td className="px-4 py-3 text-[#3C2A21]">{coffee.origin}</td>
                   <td className="px-4 py-3 text-[#3C2A21]">{coffee.roast_level}</td>
-                  <td className="px-4 py-3 text-[#1A120B]">${Number(coffee.price).toFixed(2)}</td>
+                  <td className="px-4 py-3 text-[#2C1810]">${Number(coffee.price).toFixed(2)}</td>
                   <td className="px-4 py-3">
                     <span className={`font-medium ${coffee.stock_quantity === 0 ? 'text-red-600' : 'text-green-700'}`}>
                       {coffee.stock_quantity}
@@ -74,7 +74,7 @@ export default async function AdminPage() {
                   <td className="px-4 py-3 text-right space-x-3">
                     <Link
                       href={`/admin/${coffee.id}/edit`}
-                      className="text-[#1A120B] hover:text-[#B68D40] transition-colors font-medium"
+                      className="text-[#2C1810] hover:text-[#B68D40] transition-colors font-medium"
                     >
                       Edit
                     </Link>

@@ -59,7 +59,7 @@ export default async function AdminOrdersPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="font-serif text-2xl font-bold text-[#1A120B]">Orders</h1>
+        <h1 className="font-serif text-2xl font-bold text-[#2C1810]">Orders</h1>
         <span className="text-sm text-[#3C2A21]/60">{orders.length} total</span>
       </div>
 
@@ -75,7 +75,7 @@ export default async function AdminOrdersPage() {
             <div className="px-5 py-4 flex flex-wrap items-start justify-between gap-3 border-b border-[#3C2A21]/10">
               <div>
                 <div className="flex items-center gap-2 flex-wrap">
-                  <span className="font-serif font-bold text-[#1A120B]">#{order.id}</span>
+                  <span className="font-serif font-bold text-[#2C1810]">#{order.id}</span>
                   <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
                     order.status === 'paid' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
                   }`}>
@@ -97,7 +97,7 @@ export default async function AdminOrdersPage() {
                   {new Date(order.created_at).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' })}
                 </p>
               </div>
-              <span className="font-serif text-xl font-bold text-[#1A120B]">
+              <span className="font-serif text-xl font-bold text-[#2C1810]">
                 ${Number(order.total_amount).toFixed(2)}
               </span>
             </div>
@@ -106,7 +106,7 @@ export default async function AdminOrdersPage() {
             <div className="px-5 py-3 space-y-1.5">
               {order.items?.map((item, i) => (
                 <div key={i} className="flex items-center justify-between text-sm">
-                  <span className="text-[#1A120B]">
+                  <span className="text-[#2C1810]">
                     <span className="font-medium">{item.quantity}×</span> {item.name}
                   </span>
                   <span className="text-[#3C2A21]/70">${(Number(item.price) * item.quantity).toFixed(2)}</span>
@@ -116,13 +116,13 @@ export default async function AdminOrdersPage() {
 
             {/* Destination */}
             {(order.delivery_address || order.pickup_location_name) && (
-              <div className="px-5 py-3 border-t border-[#3C2A21]/10 bg-[#FAF8F6] space-y-1">
+              <div className="px-5 py-3 border-t border-[#3C2A21]/10 bg-[#FDF8F3] space-y-1">
                 <p className="text-xs font-medium text-[#3C2A21]/50 uppercase tracking-wide">Destination</p>
                 {order.delivery_type === 'pickup' ? (
                   <div className="flex items-start gap-1.5">
                     <MapPin size={13} className="text-[#B68D40] mt-0.5 shrink-0" />
                     <div>
-                      <p className="text-sm font-medium text-[#1A120B]">{order.pickup_location_name}</p>
+                      <p className="text-sm font-medium text-[#2C1810]">{order.pickup_location_name}</p>
                       {order.pickup_location_address && (
                         <p className="text-xs text-[#3C2A21]/60">{order.pickup_location_address}</p>
                       )}
@@ -132,7 +132,7 @@ export default async function AdminOrdersPage() {
                   <div className="flex items-start gap-1.5">
                     <Truck size={13} className="text-[#3C2A21]/50 mt-0.5 shrink-0" />
                     <div>
-                      <p className="text-sm text-[#1A120B]">{order.delivery_address}</p>
+                      <p className="text-sm text-[#2C1810]">{order.delivery_address}</p>
                       {order.delivery_lat && order.delivery_lng && (
                         <p className="text-xs text-[#3C2A21]/40 mt-0.5">
                           {Number(order.delivery_lat).toFixed(5)}, {Number(order.delivery_lng).toFixed(5)}

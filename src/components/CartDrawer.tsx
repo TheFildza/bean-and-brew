@@ -92,17 +92,17 @@ export function CartDrawer({ isOpen, onClose }: Props) {
       )}
       {isOpen && <div className="fixed inset-0 z-40 bg-black/40" onClick={handleClose} />}
 
-      <div className={`fixed right-0 top-0 h-full w-full max-w-md z-50 bg-[#FAF8F6] shadow-2xl flex flex-col transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+      <div className={`fixed right-0 top-0 h-full w-full max-w-md z-50 bg-[#FDF8F3] shadow-2xl flex flex-col transition-transform duration-300 ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
         <div className="flex items-center justify-between px-6 py-5 border-b border-[#3C2A21]/10">
           <div className="flex items-center gap-2">
             {step === 'address' && (
-              <button onClick={() => setStep('cart')} className="text-[#3C2A21] hover:text-[#1A120B] transition-colors mr-1">←</button>
+              <button onClick={() => setStep('cart')} className="text-[#3C2A21] hover:text-[#2C1810] transition-colors mr-1">←</button>
             )}
-            <h2 className="font-serif text-xl font-bold text-[#1A120B]">
+            <h2 className="font-serif text-xl font-bold text-[#2C1810]">
               {step === 'cart' ? 'Your Cart' : 'Delivery Options'}
             </h2>
           </div>
-          <button onClick={handleClose} className="text-[#3C2A21] hover:text-[#1A120B] transition-colors">
+          <button onClick={handleClose} className="text-[#3C2A21] hover:text-[#2C1810] transition-colors">
             <X size={22} />
           </button>
         </div>
@@ -124,9 +124,9 @@ export function CartDrawer({ isOpen, onClose }: Props) {
                         )}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="font-serif font-bold text-[#1A120B] truncate">{item.name}</p>
+                        <p className="font-serif font-bold text-[#2C1810] truncate">{item.name}</p>
                         <p className="text-xs text-[#3C2A21]">{item.origin}</p>
-                        <p className="text-sm font-medium text-[#1A120B] mt-1">${(item.price * item.quantity).toFixed(2)}</p>
+                        <p className="text-sm font-medium text-[#2C1810] mt-1">${(item.price * item.quantity).toFixed(2)}</p>
                       </div>
                       <div className="flex items-center gap-1 shrink-0">
                         <button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="w-7 h-7 rounded border border-[#3C2A21]/30 flex items-center justify-center hover:bg-[#3C2A21] hover:text-[#FAF8F6] transition-colors"><Minus size={12} /></button>
@@ -143,9 +143,9 @@ export function CartDrawer({ isOpen, onClose }: Props) {
               <div className="border-t border-[#3C2A21]/10 px-6 py-5 space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-[#3C2A21]">Total</span>
-                  <span className="font-serif text-2xl font-bold text-[#1A120B]">${total().toFixed(2)}</span>
+                  <span className="font-serif text-2xl font-bold text-[#2C1810]">${total().toFixed(2)}</span>
                 </div>
-                <button onClick={() => setStep('address')} className="w-full bg-[#1A120B] text-[#FAF8F6] py-3 rounded font-medium hover:bg-[#3C2A21] transition-colors">
+                <button onClick={() => setStep('address')} className="w-full bg-[#2C1810] text-[#FAF8F6] py-3 rounded font-medium hover:bg-[#3C2A21] transition-colors">
                   Proceed to Checkout
                 </button>
                 <button onClick={clearCart} className="w-full text-sm text-[#3C2A21]/50 hover:text-[#3C2A21] transition-colors">Clear cart</button>
@@ -161,7 +161,7 @@ export function CartDrawer({ isOpen, onClose }: Props) {
                 <button
                   key={t}
                   onClick={() => setTab(t)}
-                  className={`flex-1 py-3 text-sm font-medium transition-colors ${tab === t ? 'text-[#1A120B] border-b-2 border-[#1A120B]' : 'text-[#3C2A21]/50 hover:text-[#3C2A21]'}`}
+                  className={`flex-1 py-3 text-sm font-medium transition-colors ${tab === t ? 'text-[#2C1810] border-b-2 border-[#2C1810]' : 'text-[#3C2A21]/50 hover:text-[#3C2A21]'}`}
                 >
                   {t === 'delivery' ? 'Home Delivery' : 'Pickup Point'}
                 </button>
@@ -177,9 +177,9 @@ export function CartDrawer({ isOpen, onClose }: Props) {
                     onChange={e => setAddress(e.target.value)}
                     placeholder="Street, number, city, postal code..."
                     rows={3}
-                    className="w-full border border-[#3C2A21]/30 rounded px-3 py-2 text-sm text-[#1A120B] bg-white placeholder-[#3C2A21]/40 focus:outline-none focus:border-[#1A120B] resize-none"
+                    className="w-full border border-[#3C2A21]/30 rounded px-3 py-2 text-sm text-[#2C1810] bg-white placeholder-[#3C2A21]/40 focus:outline-none focus:border-[#2C1810] resize-none"
                   />
-                  <button onClick={handleLocate} disabled={locating} className="flex items-center gap-2 text-sm text-[#3C2A21] hover:text-[#1A120B] transition-colors disabled:opacity-50">
+                  <button onClick={handleLocate} disabled={locating} className="flex items-center gap-2 text-sm text-[#3C2A21] hover:text-[#2C1810] transition-colors disabled:opacity-50">
                     <Locate size={14} />
                     {locating ? 'Locating...' : 'Use my current location'}
                   </button>
@@ -207,7 +207,7 @@ export function CartDrawer({ isOpen, onClose }: Props) {
                   )}
                   {selectedPickup && (
                     <div className="bg-[#B68D40]/10 border border-[#B68D40]/30 rounded-lg px-4 py-3">
-                      <p className="font-medium text-sm text-[#1A120B]">{selectedPickup.name}</p>
+                      <p className="font-medium text-sm text-[#2C1810]">{selectedPickup.name}</p>
                       <p className="text-xs text-[#3C2A21]/70 mt-0.5">{selectedPickup.address}</p>
                     </div>
                   )}
@@ -219,7 +219,7 @@ export function CartDrawer({ isOpen, onClose }: Props) {
               <button
                 onClick={() => setShowCheckout(true)}
                 disabled={!canContinue}
-                className="w-full bg-[#1A120B] text-[#FAF8F6] py-3 rounded font-medium hover:bg-[#3C2A21] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                className="w-full bg-[#2C1810] text-[#FAF8F6] py-3 rounded font-medium hover:bg-[#3C2A21] transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
               >
                 Continue to Payment
               </button>
