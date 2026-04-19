@@ -12,6 +12,16 @@
 - `pm2 save` na kraju — proces preživljava server reboot (u kombinaciji sa `pm2 startup`)
 
 
+## 2026-04-19 — Admin Orders Page
+
+**Changes made:**
+- Nova stranica `/admin/orders` — lista svih narudžbina sortirana hronološki (najnovije prvo)
+- Prikazuje: order ID, status badge (paid/pending), tip dostave (Pickup/Delivery), kupac (ime + email), datum, ukupan iznos
+- Stavke narudžbine: naziv kafe, količina, cena po stavci
+- Footer kartice: adresa dostave ili naziv pickup lokacije
+- SQL query koristi `JSON_AGG` + `JSON_BUILD_OBJECT` za agregaciju stavki u jednom upitu
+- Link "Orders" dodat u admin navigaciju (između Products i Locations)
+
 ## 2026-04-19 — Phase 4: Delivery & UX Optimization
 
 **Changes made:**
