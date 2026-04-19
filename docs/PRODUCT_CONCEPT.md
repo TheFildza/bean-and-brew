@@ -33,7 +33,7 @@ We follow the **Build-Measure-Act-Deploy** framework to ensure rapid, stable, an
 ### Phase 4: Delivery & UX Optimization (CURRENT)
 * **Hybrid Fulfillment:** Kupac bira između "Dostave na adresu" i "Ličnog preuzimanja" (Click & Collect) tokom checkout procesa.
 * **Address Capture:** Tekstualni unos adrese + opcioni "Lociraj me" (Browser Geolocation API) za auto-popunjavanje na mobilnim uređajima. Adresa i koordinate se čuvaju uz narudžbinu. Nema integracije sa kurirskom službom u ovoj fazi — adresa služi kao podatak za manuelnu obradu.
-* **Click & Collect Lokacije:** Fiksne lokacije (pijace, kafići) kojima upravlja admin putem interaktivne mape (centrirana na Beograd). Lokacije se čuvaju u bazi sa nazivom, adresom i koordinatama. Kupac bira lokaciju sa mape tokom checkout-a.
+* **Click & Collect Lokacije:** Fiksne lokacije (pijace, kafići) kojima upravlja admin putem interaktivne mape (centrirana na Beograd). Lokacije se čuvaju u bazi sa nazivom, adresom i koordinatama. Kupac bira lokaciju sa mape tokom checkout-a. Admin mapa zauzima celu širinu ekrana sa tekstualnim poljem za pretragu iznad — pretraga zumira mapu na zadatu adresu, oblast ili pojam (Nominatim geocoding).
 
 ## 4. MVP Core Requirements
 * **Performance:** Sub-1s page loads using SSR and optimized image delivery.

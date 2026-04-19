@@ -42,6 +42,7 @@ The design must evoke the sensory experience of a specialty coffee roastery: war
 - **Forme:** Jednostavne, vertikalne forme sa jasnim label-ima. Greške inline ispod polja.
 - **Stock indikator:** Vizuelno upozorenje kad je `stock_quantity` = 0 (badge "Out of Stock").
 - **Destruktivne akcije:** Delete dugme traži potvrdu kako bi se sprečilo slučajno brisanje.
+- **Locations mapa:** Full-width Leaflet mapa sa poljem za pretragu iznad. Pretraga zumira mapu na adresu/oblast/pojam (Nominatim geocoding). Klik na mapu dodaje pin, forma za naziv/adresu se pojavljuje ispod mape.
 
 ## 7. Auth Pages UX (Login / Register)
 - **Minimalistički layout:** Centrisana kartica na Cream pozadini, bez navigacije.
