@@ -8,15 +8,16 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
 
 interface Props {
   items: { id: number; quantity: number }[]
+  delivery?: { address: string; lat?: number; lng?: number }
   onClose: () => void
 }
 
-export function CheckoutModal({ items, onClose }: Props) {
+export function CheckoutModal({ items, delivery, onClose }: Props) {
   const fetchClientSecret = useCallback(async () => {
     const res = await fetch('/api/checkout', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ items }),
+      body: JSON.stringify({ items, delivery }),
     })
     if (res.status === 401) {
       const data = await res.json()

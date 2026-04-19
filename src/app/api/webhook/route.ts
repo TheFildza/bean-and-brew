@@ -28,9 +28,13 @@ export async function POST(request: NextRequest) {
     const existing = await sql`SELECT id FROM orders WHERE stripe_session_id = ${session.id}`
     if (existing.length > 0) return NextResponse.json({ received: true })
 
+    const deliveryAddress = session.metadata?.delivery_address ?? null
+    const deliveryLat = session.metadata?.delivery_lat ? parseFloat(session.metadata.delivery_lat) : null
+    const deliveryLng = session.metadata?.delivery_lng ? parseFloat(session.metadata.delivery_lng) : null
+
     const orderRows = await sql`
-      INSERT INTO orders (user_id, stripe_session_id, stripe_payment_intent, status, total_amount)
-      VALUES (${userId}, ${session.id}, ${session.payment_intent as string ?? null}, 'paid', ${totalAmount})
+      INSERT INTO orders (user_id, stripe_session_id, stripe_payment_intent, status, total_amount, delivery_address, delivery_lat, delivery_lng)
+      VALUES (${userId}, ${session.id}, ${session.payment_intent as string ?? null}, 'paid', ${totalAmount}, ${deliveryAddress}, ${deliveryLat}, ${deliveryLng})
       RETURNING id
     `
     const orderId = orderRows[0].id as number
