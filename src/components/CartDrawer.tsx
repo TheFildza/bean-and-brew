@@ -1,5 +1,6 @@
 'use client'
 import Image from 'next/image'
+import { useState } from 'react'
 import { X, Plus, Minus, Trash2 } from 'lucide-react'
 import { useCartStore } from '@/store/cartStore'
 
@@ -10,6 +11,27 @@ interface Props {
 
 export function CartDrawer({ isOpen, onClose }: Props) {
   const { items, removeItem, updateQuantity, clearCart, total } = useCartStore()
+  const [loading, setLoading] = useState(false)
+  const [checkoutError, setCheckoutError] = useState<string | null>(null)
+
+  async function handleCheckout() {
+    setLoading(true)
+    setCheckoutError(null)
+    try {
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ items: items.map(i => ({ id: i.id, quantity: i.quantity })) }),
+      })
+      const data = await res.json()
+      if (res.status === 401) { window.location.href = data.redirect; return }
+      if (!res.ok) { setCheckoutError(data.error ?? 'Checkout failed'); setLoading(false); return }
+      window.location.href = data.url
+    } catch {
+      setCheckoutError('Something went wrong. Please try again.')
+      setLoading(false)
+    }
+  }
 
   return (
     <>
@@ -95,8 +117,15 @@ export function CartDrawer({ isOpen, onClose }: Props) {
                 ${total().toFixed(2)}
               </span>
             </div>
-            <button className="w-full bg-[#1A120B] text-[#FAF8F6] py-3 rounded font-medium hover:bg-[#3C2A21] transition-colors">
-              Proceed to Checkout
+            {checkoutError && (
+              <p className="text-sm text-red-600 text-center">{checkoutError}</p>
+            )}
+            <button
+              onClick={handleCheckout}
+              disabled={loading}
+              className="w-full bg-[#1A120B] text-[#FAF8F6] py-3 rounded font-medium hover:bg-[#3C2A21] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loading ? 'Redirecting...' : 'Proceed to Checkout'}
             </button>
             <button
               onClick={clearCart}
