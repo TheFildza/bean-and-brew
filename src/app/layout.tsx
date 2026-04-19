@@ -18,7 +18,7 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Bean & Brew - Artisanal Coffee Roastery",
+  title: "B & B - Artisanal Coffee Roastery",
   description: "Discover our curated selection of specialty coffees from around the world.",
 };
 

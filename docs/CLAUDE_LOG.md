@@ -12,6 +12,25 @@
 - `pm2 save` na kraju — proces preživljava server reboot (u kombinaciji sa `pm2 startup`)
 
 
+## 2026-04-19 — Phase 2: Operations & Commerce
+
+**Changes made:**
+- Zustand v5 cart store sa `persist`, `skipHydration: true` i `partialize` — sprečava SSR hydration mismatch
+- `CartDrawer` + `CartProvider` + `Header` sa cart ikonom i badge-om
+- Admin Dashboard: CRUD za kafe, stock management, `is_active` toggle
+- `proxy.ts` (Next.js 16 breaking change — `middleware.ts` → `proxy.ts`, `export proxy()`) — štiti `/admin/*`
+- Admin auth: `bcryptjs` hash u `.env.local`, `bb_admin_session` httpOnly cookie
+- Gotcha: `$` u `.env.local` mora biti escapovan kao `\$` — Next.js auto-expanduje `$VAR`
+- Migracija `001_add_stock.sql`: dodate `stock_quantity` i `is_active` kolone na `coffees`
+- Migracija `002_users_orders.sql`: kreirane `users`, `orders`, `order_items` tabele
+- User auth: registracija/login putem `bcryptjs`, `bb_user_session` httpOnly cookie, token u `users.session_token`
+- Stripe Embedded Checkout: `ui_mode: 'embedded_page' as const` (Stripe SDK v22 — `'embedded'` više nije validan)
+- `EmbeddedCheckoutProvider` + `EmbeddedCheckout` u `CheckoutModal` modalu umesto redirect-a
+- Webhook (`/api/webhook`): `request.text()` za signature verifikaciju, idempotency check na `stripe_session_id`, stock decrement sa `GREATEST(0, stock_quantity - qty)`
+- Server-side price validation u checkout API-ju — klijentske cene se ignorišu
+- Order history stranica na `/account`
+- Rebrand UI: "Bean & Brew" → "B & B" na svim UI mestima
+
 ## 2026-04-19 — Phase 1 Bug Fixes
 
 **Changes made:**

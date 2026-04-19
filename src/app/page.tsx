@@ -39,7 +39,7 @@ export default async function Home() {
       {/* Hero Section */}
       <section className="py-20 px-6 text-center">
         <h1 className="text-5xl md:text-6xl font-serif font-bold mb-6 text-[#1A120B]">
-          Bean & Brew
+          B & B
         </h1>
         <p className="text-xl md:text-2xl text-[#3C2A21] max-w-2xl mx-auto leading-relaxed">
           Discover our curated selection of specialty coffees, roasted with precision and passion.

@@ -11,7 +11,7 @@ export default async function LoginPage({ searchParams }: Props) {
     <div className="min-h-screen bg-[#FAF8F6] flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
         <h1 className="font-serif text-3xl font-bold text-[#1A120B] text-center mb-2">
-          Bean & Brew
+          B & B
         </h1>
         <p className="text-center text-[#3C2A21] mb-8">Admin Dashboard</p>
 

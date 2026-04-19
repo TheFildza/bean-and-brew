@@ -47,8 +47,8 @@ export async function POST(request: NextRequest) {
     payment_method_types: ['card'],
     line_items: lineItems,
     mode: 'payment',
-    success_url: `${baseUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${baseUrl}/checkout/cancel`,
+    ui_mode: 'embedded_page' as const,
+    return_url: `${baseUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
     customer_email: user.email,
     metadata: {
       user_id: String(user.id),
@@ -56,5 +56,5 @@ export async function POST(request: NextRequest) {
     },
   })
 
-  return NextResponse.json({ url: session.url })
+  return NextResponse.json({ clientSecret: session.client_secret })
 }
