@@ -12,13 +12,16 @@ interface Coffee {
   notes: string | null;
   description: string;
   image_url: string | null;
+  stock_quantity: number;
 }
 
 async function getCoffees(): Promise<Coffee[]> {
   try {
     const coffees = await sql`
-      SELECT id, name, origin, roast_level, price, notes, description, image_url
+      SELECT id, name, origin, roast_level, price, notes, description, image_url,
+             COALESCE(stock_quantity, 0) AS stock_quantity
       FROM coffees
+      WHERE COALESCE(is_active, true) = true
       ORDER BY id
     `;
     return coffees as Coffee[];
@@ -112,13 +115,19 @@ export default async function Home() {
                       <span className="text-2xl font-serif font-bold text-[#1A120B]">
                         ${coffee.price}
                       </span>
-                      <AddToCartButton coffee={{
-                        id: coffee.id,
-                        name: coffee.name,
-                        origin: coffee.origin,
-                        price: coffee.price,
-                        image_url: coffee.image_url,
-                      }} />
+                      {coffee.stock_quantity > 0 ? (
+                        <AddToCartButton coffee={{
+                          id: coffee.id,
+                          name: coffee.name,
+                          origin: coffee.origin,
+                          price: coffee.price,
+                          image_url: coffee.image_url,
+                        }} />
+                      ) : (
+                        <span className="text-sm font-medium text-[#3C2A21]/60 border border-[#3C2A21]/20 px-4 py-2 rounded">
+                          Out of Stock
+                        </span>
+                      )}
                     </div>
                   </div>
                 </div>
