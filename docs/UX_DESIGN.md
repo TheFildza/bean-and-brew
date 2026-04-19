@@ -1,4 +1,4 @@
-# UX Design Strategy: Bean & Brew
+# UX Design Strategy: B & B
 
 ## 1. Visual Identity & Atmosphere
 The design must evoke the sensory experience of a specialty coffee roastery: warmth, precision, and craftsmanship.
@@ -27,3 +27,30 @@ The design must evoke the sensory experience of a specialty coffee roastery: war
 - Single-column layout for the product list.
 - Large, "thumb-friendly" interaction areas.
 - Fast, lazy-loaded images to maintain performance on cellular networks.
+
+## 5. Cart & Checkout UX
+- **Cart Drawer:** Slide-in panel s desne strane, overlay pozadina zatvara drawer na klik.
+- **Item Controls:** Inline +/- dugmad za količinu, trash ikona za uklanjanje, thumbnail slike za vizuelni kontekst.
+- **Checkout Modal:** Stripe Embedded Checkout se otvara u centrisanom modalu — korisnik ne napušta stranicu.
+- **Empty State:** Prijatna poruka kad je korpa prazna, bez praznog UI-ja.
+- **Error Feedback:** Inline greška ispod checkout dugmeta (out of stock, mrežna greška).
+- **Auth Gate:** Ako korisnik nije ulogovan, redirect na `/login?next=checkout` pre otvaranja plaćanja.
+
+## 6. Admin Dashboard UX
+- **Odvojena vizuelna tema:** Tamni header (`#1A120B`) jasno signalizira admin kontekst — ne meša se sa korisničkim UI-jem.
+- **Tabela proizvoda:** Kompaktna, density-first lista sa inline akcijama (Edit, Delete, toggle aktivnosti).
+- **Forme:** Jednostavne, vertikalne forme sa jasnim label-ima. Greške inline ispod polja.
+- **Stock indikator:** Vizuelno upozorenje kad je `stock_quantity` = 0 (badge "Out of Stock").
+- **Destruktivne akcije:** Delete dugme traži potvrdu kako bi se sprečilo slučajno brisanje.
+
+## 7. Auth Pages UX (Login / Register)
+- **Minimalistički layout:** Centrisana kartica na Cream pozadini, bez navigacije.
+- **Brand logo/naziv** na vrhu forme za konzistentnost.
+- **Inline greške:** Prikazati specifičnu poruku (pogrešna lozinka, email već postoji).
+- **Cross-links:** Login stranica ima link na Register i obrnuto.
+
+## 8. Order History UX (`/account`)
+- **Hronološki prikaz** narudžbina, najnovije prvo.
+- **Status badge:** Vizuelni indikator statusa (completed, pending).
+- **Sumarni podaci:** Datum, ukupan iznos, lista stavki sa količinama.
+- **Prazno stanje:** Poziv na akciju ka prodavnici ako nema narudžbina.

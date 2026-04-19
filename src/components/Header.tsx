@@ -18,7 +18,7 @@ export function Header({ userNav }: Props) {
     <>
       <header className="sticky top-0 z-40 bg-[#FAF8F6]/95 backdrop-blur border-b border-[#3C2A21]/10 px-6 py-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          <a href="/" className="font-serif font-bold text-xl text-[#1A120B]">Bean & Brew</a>
+          <a href="/" className="font-serif font-bold text-xl text-[#1A120B]">B & B</a>
           <div className="flex items-center gap-4">
             {userNav}
             <button

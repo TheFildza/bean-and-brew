@@ -6,7 +6,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <header className="bg-[#1A120B] text-[#FAF8F6] px-6 py-4">
         <div className="max-w-6xl mx-auto flex items-center justify-between">
           <div>
-            <span className="font-serif font-bold text-lg">Bean & Brew</span>
+            <span className="font-serif font-bold text-lg">B & B</span>
             <span className="ml-3 text-[#FAF8F6]/50 text-sm">Admin</span>
           </div>
           <form action={logoutAction}>

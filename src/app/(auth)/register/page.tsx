@@ -11,7 +11,7 @@ export default async function RegisterPage({ searchParams }: Props) {
     <div className="min-h-screen bg-[#FAF8F6] flex items-center justify-center px-4">
       <div className="w-full max-w-sm">
         <h1 className="font-serif text-3xl font-bold text-[#1A120B] text-center mb-2">Create account</h1>
-        <p className="text-center text-[#3C2A21] mb-8">Join Bean & Brew</p>
+        <p className="text-center text-[#3C2A21] mb-8">Join B & B</p>
 
         <form action={registerAction} className="space-y-4">
           <div>

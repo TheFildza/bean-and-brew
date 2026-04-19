@@ -3,6 +3,7 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { X, Plus, Minus, Trash2 } from 'lucide-react'
 import { useCartStore } from '@/store/cartStore'
+import { CheckoutModal } from './CheckoutModal'
 
 interface Props {
   isOpen: boolean
@@ -11,30 +12,16 @@ interface Props {
 
 export function CartDrawer({ isOpen, onClose }: Props) {
   const { items, removeItem, updateQuantity, clearCart, total } = useCartStore()
-  const [loading, setLoading] = useState(false)
-  const [checkoutError, setCheckoutError] = useState<string | null>(null)
-
-  async function handleCheckout() {
-    setLoading(true)
-    setCheckoutError(null)
-    try {
-      const res = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items: items.map(i => ({ id: i.id, quantity: i.quantity })) }),
-      })
-      const data = await res.json()
-      if (res.status === 401) { window.location.href = data.redirect; return }
-      if (!res.ok) { setCheckoutError(data.error ?? 'Checkout failed'); setLoading(false); return }
-      window.location.href = data.url
-    } catch {
-      setCheckoutError('Something went wrong. Please try again.')
-      setLoading(false)
-    }
-  }
+  const [showCheckout, setShowCheckout] = useState(false)
 
   return (
     <>
+      {showCheckout && (
+        <CheckoutModal
+          items={items.map(i => ({ id: i.id, quantity: i.quantity }))}
+          onClose={() => setShowCheckout(false)}
+        />
+      )}
       {isOpen && (
         <div className="fixed inset-0 z-40 bg-black/40" onClick={onClose} />
       )}
@@ -117,15 +104,11 @@ export function CartDrawer({ isOpen, onClose }: Props) {
                 ${total().toFixed(2)}
               </span>
             </div>
-            {checkoutError && (
-              <p className="text-sm text-red-600 text-center">{checkoutError}</p>
-            )}
             <button
-              onClick={handleCheckout}
-              disabled={loading}
-              className="w-full bg-[#1A120B] text-[#FAF8F6] py-3 rounded font-medium hover:bg-[#3C2A21] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              onClick={() => setShowCheckout(true)}
+              className="w-full bg-[#1A120B] text-[#FAF8F6] py-3 rounded font-medium hover:bg-[#3C2A21] transition-colors"
             >
-              {loading ? 'Redirecting...' : 'Proceed to Checkout'}
+              Proceed to Checkout
             </button>
             <button
               onClick={clearCart}

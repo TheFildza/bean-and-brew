@@ -1,34 +1,28 @@
-# Master Instructions: Bean & Brew (Senior Architect Guidelines)
-
-## 1. Core Architecture Philosophy
-- **Lean & High-Performance:** Prioritize minimal dependencies and fast execution.
-- **BMAD Framework:** All features must follow Build, Measure, Act, Deploy cycles.
-- **Production-First:** Security and stability are non-negotiable from the first line of code.
-
-## 2. Technical Stack & Data Strategy
-- **Framework:** Next.js 15 (App Router).
-- **Database:** Neon PostgreSQL (Serverless).
-- **Data Access:** Raw SQL via `@neondatabase/serverless`. **PROHIBITED:** Prisma or heavy ORMs (keep build times low).
-- **State Management:** **Zustand** with `persist` middleware for the shopping cart.
-- **Security:** Use **bcryptjs** for admin password hashing. Credentials must reside in `.env.local`.
-
-## 3. Deployment & CI/CD Strategy (Push-to-Deploy)
-- **Branching:** - `master`: Development and feature integration.
-  - `prod`: The "Holy" branch. Push/Merge to `prod` triggers automatic deployment.
-- **Pipeline:** GitHub Actions -> SSH -> VPS (`kafa.nikolafilic.com`).
-- **Automation:** Every deploy must execute `./start.sh` which handles `git reset --hard`, `npm install`, `npm run build`, and `pm2 restart`.
-- **Secrets:** All server credentials must be stored in GitHub Secrets (`SSH_PRIVATE_KEY`, `SERVER_IP`, etc.).
-
 ## 4. Operational Guardrails
-- **Zero-Dependency Auth:** Use ENV-based password + Secure httpOnly Cookies for the Admin Dashboard. Avoid NextAuth for single-user scenarios.
-- **Inventory Logic:** Every product must have a `stock_quantity`. UI must handle "Out of Stock" states gracefully.
-- **Image Handling:** Use standard URL inputs for images in MVP Phase 2. Avoid complex S3 integrations until Phase 3.
+- **Inventory Logic:** Svaki proizvod mora imati `stock_quantity`. UI mora elegantno hendlovati "Out of Stock" stanja.
+- **Server-Side Price Validation:** Checkout API uvek ponovo povlači cene iz baze. Nikada ne veruj ceni poslatoj sa klijenta.
+- **Stripe Webhook Raw Body:** Koristiti `request.text()` za verifikaciju potpisa (ne `request.json()`).
+- **Webhook Idempotency:** Obavezna provera `stripe_session_id` u bazi pre kreiranja narudžbine.
 
-## 5. Documentation & Logging
-- **Claude Log:** Every architectural change or bug fix must be recorded in `docs/CLAUDE_LOG.md`.
-- **Deployment Manual:** Refer to `docs/DEPLOYMENT.md` for server setup and CI/CD maintenance.
-- **Product Vision:** Refer to `docs/PRODUCT_CONCEPT.md` for roadmap and business objectives.
+## 5. User Authentication (Zero-Dependency Auth)
+- **Admin Access:** ENV-based lozinka (`ADMIN_PASSWORD_HASH`) + Secure httpOnly kuki.
+- **User Login:** Registracija: Hash-ovanje lozinke preko `bcryptjs` pre `INSERT` operacije. Autentifikacija: Provera hasha i postavljanje `bb_user_session` httpOnly kukija.
+    - **Storage:** Random token se čuva u `users.session_token` koloni u bazi. Provera se vrši u `getUserFromSession()` (`src/lib/userAuth.ts`).
+- **Session Security:** `proxy.ts` štiti isključivo `/admin/*` rute. Korisničke stranice (npr. `/account`) proveru vrše direktno u layout/page komponenti putem `getUserFromSession()`.
 
-## 6. AI Interaction Rules
-- **Self-Testing:** AI must simulate/test logic (Unit tests or Stress tests) before providing final code.
-- **Environment Awareness:** Always respect the HestiaCP/PM2 environment path: `/home/nikibajaopak/web/kafa.nikolafilic.com/public_html`.
+## 6. Stripe Payment Integration (v22)
+- **Flow:** Koristiti **Stripe Embedded Checkout** unutar modala.
+- **Configuration:** `uiMode` mora biti postavljen na `'embedded_page' as const`.
+- **Atomic Stock Update:** Smanjenje `stock_quantity` se vrši isključivo unutar Stripe Webhook-a nakon potvrđene uplate (`checkout.session.completed`).
+- **Error Handling:** Ako se uplata potvrdi, a smanjenje zaliha ne uspe, sistem mora logovati grešku za manuelnu intervenciju (Inventory Integrity).
+
+## 7. Known Gotchas & Versioning
+- **Next.js 16:** Middleware fajl je `proxy.ts`, eksportuje `proxy()`.
+- **Stripe SDK v22:** Koristiti `'embedded_page' as const` umesto `'embedded'`.
+- **Zustand v5 + SSR:** Koristiti `skipHydration: true` i `partialize`.
+- **Dynamic Rendering:** Dodati `export const dynamic = 'force-dynamic'` na stranice sa DB upitima u build-time-u.
+
+## 8. Documentation & Logging
+- **Claude Log:** Svaka arhitektonska promena mora biti zabeležena u `docs/CLAUDE_LOG.md`.
+- **Environment Awareness:** Uvek poštovati putanju: `/home/nikibajaopak/web/kafa.nikolafilic.com/public_html`.
+- **Brand Name:** Aplikacija se u celom UI-u naziva **"B & B"**.
